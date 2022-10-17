@@ -23,41 +23,74 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Structure de la table `item`
+-- Structure de la table `tag`
 --
 
-CREATE TABLE `item` (
-  `id` int(11) UNSIGNED NOT NULL,
-  `title` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE tag
+(
+    id_tag INT PRIMARY KEY NOT NULL,
+    name_tag VARCHAR(25)
+);
 
 --
--- Contenu de la table `item`
+-- Structure de la table `menu`
 --
 
-INSERT INTO `item` (`id`, `title`) VALUES
-(1, 'Stuff'),
-(2, 'Doodads');
+CREATE TABLE menu
+(
+    id_menu INT PRIMARY KEY NOT NULL,
+    name_menu VARCHAR(50),
+	price_menu double,
+	note_menu double,
+	description_menu text
+);
 
 --
--- Index pour les tables exportées
+-- Structure de la table `cook`
 --
 
---
--- Index pour la table `item`
---
-ALTER TABLE `item`
-  ADD PRIMARY KEY (`id`);
+CREATE TABLE cook
+(
+    id_cook INT PRIMARY KEY NOT NULL,
+    firstname_cook VARCHAR(50),
+	lastname_cook VARCHAR(50),
+	description_cook text,
+	available_cook VARCHAR(5)
+);
 
 --
--- AUTO_INCREMENT pour les tables exportées
+-- Structure de la table `booking`
 --
 
+CREATE TABLE BOOKING
+(
+    id_booking INT PRIMARY KEY NOT NULL,
+    date_booking DATE,
+	adress_booking VARCHAR(255),
+	price_prestation double,
+    is_lesson bool,
+	id_cook int,
+    FOREIGN KEY (id_cook) REFERENCES cook(id_cook)
+);
+
 --
--- AUTO_INCREMENT pour la table `item`
+-- Structure de la table `tag_menu`
 --
-ALTER TABLE `item`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+CREATE TABLE tag_menu (
+	id_tag int,
+    id_menu int,
+    FOREIGN KEY (id_tag) REFERENCES tag(id_tag),
+    FOREIGN KEY (id_menu) REFERENCES menu(id_menu)
+);
+
+--
+-- Structure de la table `booking_menu`
+--
+
+CREATE TABLE booking_menu (
+	id_booking int,
+    id_menu int,
+    FOREIGN KEY (id_booking) REFERENCES booking(id_booking),
+    FOREIGN KEY (id_menu) REFERENCES menu(id_menu)
+);
