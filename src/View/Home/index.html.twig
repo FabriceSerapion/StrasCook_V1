@@ -1,6 +1,37 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
-    <h1>Hello Wilder !</h1>
-    <p>Find a complete CRUD example on <a href="/items">/items</a> page.</p>
+	<form action="" method="post">
+    <div>
+        <label for="adress">Réservé à</label><br />
+        <input type="text" id="adress" name="adress" value="Adresse, Code postal, ville..." required>
+        <p><?php if(isset($errors['adress1'])) echo $errors['adress1']; ?></p>
+    </div>
+    <div>
+        <label for="date">Date de votre dîner</label><br />
+        <input type="date" id="date" name="date" required>
+        <p><?php if(isset($errors['date1'])) echo $errors['date1']; ?></p>
+    </div>
+    <div>
+        <label for="hour">Heure de votre dîner</label><br />
+        <input type="time" id="hour" name="hour" value="19:30" required>
+        <p><?php if(isset($errors['hour1'])) echo $errors['hour1']; ?></p>
+    </div>
+    <div>
+        <label for="benefit">Type de prestation</label><br />
+        <select id="benefit" name="benefit" >
+        <option value="">--Choisissez un type votre prestation--</option>
+    <option value="dinner">Dîner</option>
+    <option value="lesson">Cour de cuisine</option>
+        </select>
+        <p><?php if(isset($errors['benefit1'])) echo $errors['benefit1']; ?></p>
+    </div>
+    <div class="button">
+        <button type="submit">Validez votre choix</button>
+    </div>
+</form>
+	<h1>Hello Wilder !</h1>
+	<p>Find a complete CRUD example on
+		<a href="/items">/items</a>
+		page.</p>
 {% endblock %}
