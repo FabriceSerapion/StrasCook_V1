@@ -10,7 +10,8 @@ class HomeController extends AbstractController
     public function index(): string
     {
         $errors = array();
-        if ($_POST) {//strart validation
+        if ($_POST) {
+            //strart validation
             if (empty($_POST['adress'])) {
                 $errors['adress1'] = "Votre adresse est requise";
             }
