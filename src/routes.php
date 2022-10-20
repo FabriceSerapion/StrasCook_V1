@@ -16,10 +16,11 @@ return [
     'items/show' => ['ItemController', 'show', ['id']],
     'items/add' => ['ItemController', 'add',],
     'items/delete' => ['ItemController', 'delete',],
-    'menus' => ['MenusController', 'allMenus'],
     'about' => ['AboutController', 'about'],
-    'basket' => ['BasketController', 'basket'],
+    'menus' => ['MenusController', 'allMenus'],
+    'lessons' => ['LessonsController', 'lessons'],
     'gifts' => ['GiftsController', 'gifts'],
-    'user' => ['UserController', 'userConnect']
+    'user' => ['UserController', 'userConnect'],
+    'basket' => ['BasketController', 'basket']
 
 ];
