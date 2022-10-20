@@ -22,5 +22,4 @@ return [
     'gifts' => ['GiftsController', 'gifts'],
     'user' => ['UserController', 'userConnect'],
     'basket' => ['BasketController', 'basket']
-
 ];
