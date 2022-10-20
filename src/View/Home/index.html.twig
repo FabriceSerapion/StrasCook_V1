@@ -1,37 +1,66 @@
 {% extends 'layout.html.twig' %}
 
+
+
+{% block stylesheet %}
+<link rel="stylesheet" href="/assets/css/home.css">
+{% endblock %}
 {% block content %}
-	<form action="" method="post">
-    <div>
-        <label for="adress">Réservé à</label><br />
-        <input type="text" id="adress" name="adress" value="Adresse, Code postal, ville..." required>
-        <p><?php if(isset($errors['adress1'])) echo $errors['adress1']; ?></p>
-    </div>
-    <div>
-        <label for="date">Date de votre dîner</label><br />
-        <input type="date" id="date" name="date" required>
-        <p><?php if(isset($errors['date1'])) echo $errors['date1']; ?></p>
-    </div>
-    <div>
-        <label for="hour">Heure de votre dîner</label><br />
-        <input type="time" id="hour" name="hour" value="19:30" required>
-        <p><?php if(isset($errors['hour1'])) echo $errors['hour1']; ?></p>
-    </div>
-    <div>
-        <label for="benefit">Type de prestation</label><br />
-        <select id="benefit" name="benefit" >
-        <option value="">--Choisissez un type votre prestation--</option>
-    <option value="dinner">Dîner</option>
-    <option value="lesson">Cour de cuisine</option>
-        </select>
-        <p><?php if(isset($errors['benefit1'])) echo $errors['benefit1']; ?></p>
-    </div>
-    <div class="button">
-        <button type="submit">Validez votre choix</button>
-    </div>
-</form>
-	<h1>Hello Wilder !</h1>
-	<p>Find a complete CRUD example on
-		<a href="/items">/items</a>
-		page.</p>
+	<section class="accueil bg-dark d-flex w-100 h-50 flex-column justify-content-center align-items-center">
+		<h1 class="display-1 text-white text-center">Adoptez votre chef à domicile pour savourer les délices du monde!</h1>
+		<p class="load text-center text-white">Vivez une expérience unique avec ce nouveau concept tendance qui est une alternative au restaurant</p>
+	</section>
+	
+	<div id="form-line">
+		<div class="container">
+			<form action="" method="post">
+				<div class="row">
+					<div class="col-6 col-xl-3">
+						<label for="adress">RÉSERVÉ À </label><br/>
+						<input type="text" id="adress" name="adress" placeholder="Adresse, Code postal, ville..." required pattern="([0-9]*) ?([a-zA-Z,\. ]*) ?([0-9]{5}) ?([a-zA-Z]*)">
+						<p>
+							{% if errors['adress1'] %}
+								{{errors['adress1']}}
+							{% endif %}
+						</p>
+					</div>
+					<div class="col-6 col-xl-2">
+						<label for="date">LE</label><br/>
+						<input type="date" id="date" name="date" placeholder="Date" required>
+						<p>
+							{% if errors['date1'] %}
+								{{errors['date1']}}
+							{% endif %}
+						</p>
+					</div>
+					<div class="col-6 col-xl-2">
+						<label for="hour">À</label><br/>
+						<input type="time" id="hour" name="hour" placeholder="Heure" required>
+						<p>
+							{% if errors['hour1'] %}
+								{{errors['hour1']}}
+							{% endif %}
+						</p>
+					</div>
+					<div class="col-6 col-xl-3">
+						<label for="benefit">Type de prestation</label><br/>
+						<select id="benefit" name="benefit">
+							<option value="">--Faites votre choix--</option>
+							<option value="dinner">Dîner</option>
+							<option value="lesson">Cour de cuisine</option>
+							<option value="gift">Offrir un menu ou cours</option>
+						</select>
+						<p>
+							{% if errors['benefit1'] %}
+								{{errors['benefit1']}}
+							{% endif %}
+						</p>
+					</div>
+					<div type="button" class="col-12 col-xl-2">
+						<button type="submit">Validez votre choix</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 {% endblock %}
