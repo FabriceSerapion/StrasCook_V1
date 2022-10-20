@@ -23,13 +23,34 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Creation de la database
+--
+
+DROP DATABASE IF EXISTS stras_cook;
+
+create database stras_cook;
+
+use stras_cook;
+
+--
+-- Suppression des tables si elles existent
+--
+
+drop table if exists tag;
+drop table if exists menu;
+drop table if exists tag_menu;
+drop table if exists cook;
+drop table if exists booking;
+drop table if exists booking_menu;
+
+--
 -- Structure de la table `tag`
 --
 
 CREATE TABLE tag
 (
-    id_tag INT PRIMARY KEY NOT NULL,
-    name_tag VARCHAR(25)
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name_tag VARCHAR(25) NOT NULL
 );
 
 --
@@ -38,9 +59,9 @@ CREATE TABLE tag
 
 CREATE TABLE menu
 (
-    id_menu INT PRIMARY KEY NOT NULL,
-    name_menu VARCHAR(50),
-	price_menu double,
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name_menu VARCHAR(50) NOT NULL,
+	price_menu double NOT NULL,
 	note_menu double,
 	description_menu text
 );
@@ -51,26 +72,26 @@ CREATE TABLE menu
 
 CREATE TABLE cook
 (
-    id_cook INT PRIMARY KEY NOT NULL,
-    firstname_cook VARCHAR(50),
-	lastname_cook VARCHAR(50),
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    firstname_cook VARCHAR(50) NOT NULL,
+	lastname_cook VARCHAR(50) NOT NULL,
 	description_cook text,
-	available_cook VARCHAR(5)
+	available_cook VARCHAR(5) NOT NULL
 );
 
 --
 -- Structure de la table `booking`
 --
 
-CREATE TABLE BOOKING
+CREATE TABLE booking
 (
-    id_booking INT PRIMARY KEY NOT NULL,
-    date_booking DATE,
-	adress_booking VARCHAR(255),
-	price_prestation double,
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    date_booking DATE NOT NULL,
+	adress_booking VARCHAR(255) NOT NULL,
+	price_prestation double NOT NULL,
     is_lesson bool,
-	id_cook int,
-    FOREIGN KEY (id_cook) REFERENCES cook(id_cook)
+	id_cook int NOT NULL,
+    FOREIGN KEY (id_cook) REFERENCES cook(id)
 );
 
 --
@@ -78,10 +99,10 @@ CREATE TABLE BOOKING
 --
 
 CREATE TABLE tag_menu (
-	id_tag int,
-    id_menu int,
-    FOREIGN KEY (id_tag) REFERENCES tag(id_tag),
-    FOREIGN KEY (id_menu) REFERENCES menu(id_menu)
+	id_tag int NOT NULL,
+    id_menu int NOT NULL,
+    FOREIGN KEY (id_tag) REFERENCES tag(id),
+    FOREIGN KEY (id_menu) REFERENCES menu(id)
 );
 
 --
@@ -89,8 +110,8 @@ CREATE TABLE tag_menu (
 --
 
 CREATE TABLE booking_menu (
-	id_booking int,
-    id_menu int,
-    FOREIGN KEY (id_booking) REFERENCES booking(id_booking),
-    FOREIGN KEY (id_menu) REFERENCES menu(id_menu)
+	id_booking int NOT NULL,
+    id_menu int NOT NULL,
+    FOREIGN KEY (id_booking) REFERENCES booking(id),
+    FOREIGN KEY (id_menu) REFERENCES menu(id)
 );
