@@ -21,5 +21,6 @@ return [
     'lessons' => ['LessonsController', 'lessons'],
     'gifts' => ['GiftsController', 'gifts'],
     'user' => ['UserController', 'userConnect'],
-    'basket' => ['BasketController', 'basket']
+    'basket' => ['BasketController', 'basket'],
+    'admin' => ['AdminController', 'admin'],
 ];
