@@ -21,7 +21,7 @@ class HomeController extends AbstractController
             }
 
             if (empty($_POST['hour'])) {
-                $errors['hour1'] = "Votre heure de réservation souhétée est obligatoire";
+                $errors['hour1'] = "Votre heure de réservation souhaitée est obligatoire";
             }
 
             if (empty($_POST['benefit'])) {
