@@ -29,7 +29,7 @@ class MenusController extends AbstractController
      * Show informations for a specific menu
      */
 
-    // TODO pop up javascript in twig in order to show one menu 
+    // TODO pop up javascript in twig in order to show one menu
     public function showOneMenu(int $id): string
     {
         $menuManager = new MenuManager();

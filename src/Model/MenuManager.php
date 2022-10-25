@@ -8,5 +8,5 @@ class MenuManager extends AbstractManager
 {
     public const TABLE = 'menu';
 
-    // TODO insertion and update methods 
+    // TODO insertion and update methods
 }
