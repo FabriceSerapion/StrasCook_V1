@@ -34,6 +34,7 @@ class MenusController extends AbstractController
     {
         $menuManager = new MenuManager();
         $tagManager = new TagManager();
+        // TODO validation for id selected by user
         $menu = $menuManager->selectOneById($id);
         $tagsFromMenu = $tagManager->selectAllTagsFromMenu($menu[0]);
         array_push($menu, $tagsFromMenu);
