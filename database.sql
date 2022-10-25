@@ -38,7 +38,7 @@ use stras_cook;
 
 drop table if exists tag;
 drop table if exists menu;
-drop table if exists tag_menu;
+drop table if exists menu_tag;
 drop table if exists cook;
 drop table if exists booking;
 drop table if exists booking_menu;
@@ -63,7 +63,12 @@ CREATE TABLE menu
     name_menu VARCHAR(50) NOT NULL,
 	price_menu double NOT NULL,
 	note_menu double,
-	description_menu text
+	descr_menu_appetizer text,
+    descr_menu_starter text,
+    descr_menu_meal text,
+    descr_menu_dessert text,
+    descr_menu_cheese text,
+    descr_menu_cuteness text
 );
 
 --
@@ -95,14 +100,14 @@ CREATE TABLE booking
 );
 
 --
--- Structure de la table `tag_menu`
+-- Structure de la table `menu_tag`
 --
 
-CREATE TABLE tag_menu (
-	id_tag int NOT NULL,
+CREATE TABLE menu_tag (
     id_menu int NOT NULL,
-    FOREIGN KEY (id_tag) REFERENCES tag(id),
-    FOREIGN KEY (id_menu) REFERENCES menu(id)
+	id_tag int NOT NULL,
+    FOREIGN KEY (id_menu) REFERENCES menu(id),
+    FOREIGN KEY (id_tag) REFERENCES tag(id)
 );
 
 --
