@@ -17,12 +17,11 @@ class MenusController extends AbstractController
         $menus = $menuManager->selectAll();
         foreach ($menus as $idx => $menu) {
             $tagsFromMenu = $tagManager->selectAllTagsFromMenu($menu['id']);
-            $menus[$idx][] = $tagsFromMenu;
+            $menus[$idx]["tags"] = $tagsFromMenu;
         }
         $data = ['menus' => $menus];
 
         return $this->twig->render('Pages/menus.html.twig', $data);
-        // TODO affichage des données dans la page menus.html.twig avec la data
     }
 
     /**
