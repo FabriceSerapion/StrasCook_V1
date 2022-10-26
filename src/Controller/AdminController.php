@@ -24,7 +24,7 @@ class AdminController extends AbstractController
             $menus[$idx]["tags"] = $tagsFromMenu;
         }
         $data = ['menus' => $menus];
-        $data += ['tags' => $tags];
+        $data ['tags'] = $tags;
 
         return $this->twig->render('Admin/admin.html.twig', $data);
     }
