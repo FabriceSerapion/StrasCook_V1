@@ -2,4 +2,22 @@
 
 {% block content %}
   <h1>Interface Administrateur</h1>
+
+<ul>
+  {% for menu in menus %}
+     {{menu.name_menu}}
+  {% endfor %}
+    </ul>
+      <a href="/menus/add">Ajouter un menu !</a>
+  <ul>
+    {% for tag in tags %}
+     <li>{{tag.name_tag}}</li>
+         <a href="/tags/edit?id={{ tag.id }}&table=1">Edit</a>
+      <form action="/tags/delete?table=1" method="POST">
+        <input type="hidden" name="id" value="{{ tag.id }}">
+        <button>Delete</button>
+    </form>
+  {% endfor %}
+  </ul>
+        <a href="/tags/add?table=1">Ajouter un tag !</a>
 {% endblock %}
