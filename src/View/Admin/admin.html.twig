@@ -9,7 +9,7 @@
 			<ul>
 				{% for menu in menus %}
 					<li>{{menu.name_menu}}</li>
-					<a href="/tags/edit?id={{ menu.id }}&table=0">Edit menu</a>
+					<a href="/tags/edit?id={{ menu.id }}table=0">Edit menu</a>
 					<form action="/tags/delete?table=0" method="POST">
 						<input type="hidden" name="id" value="{{ menu.id }}">
 						<button>Delete menu</button>
