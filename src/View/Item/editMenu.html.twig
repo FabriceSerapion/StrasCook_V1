@@ -1,0 +1,7 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <h1>Editer le menu : {{ menu.name_menu }}</h1>
+    {% include 'Item/_formMenu.html.twig' %}
+    <a href="/admin">Back</a>
+{% endblock %}
