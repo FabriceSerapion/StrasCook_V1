@@ -23,5 +23,9 @@ return [
     'gifts' => ['GiftsController', 'gifts'],
     'user' => ['UserController', 'userConnect'],
     'basket' => ['BasketController', 'basket'],
-    'admin' => ['AdminController', 'admin'],
+    'admin' => ['AdminController', 'indexAdmin'],
+    'tags/edit' => ['AdminController', 'edit', ['id', 'table']],
+    'tags/show' => ['AdminController', 'show', ['id'], ['table']],
+    'tags/add' => ['AdminController', 'add', ['table']],
+    'tags/delete' => ['AdminController', 'delete', ['table']],
 ];

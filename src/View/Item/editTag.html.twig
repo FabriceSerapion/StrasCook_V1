@@ -1,0 +1,7 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <h1>Editer le tag : {{ tag.name_tag }}</h1>
+    {% include 'Item/_formTag.html.twig' %}
+    <a href="/admin">Back</a>
+{% endblock %}
