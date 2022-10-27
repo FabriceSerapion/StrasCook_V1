@@ -62,4 +62,16 @@ class TagManager extends AbstractManager
         $statement->bindValue('id', $id, \PDO::PARAM_INT);
         $statement->execute();
     }
+
+    /**
+     * Validation method specific for this item
+     */
+    public function validation(array $item): array
+    {
+        $errors = array();
+        if (empty($item['name_tag'])) {
+            $errors[] = "Le nom du tag est nécessaire !";
+        }
+        return $errors;
+    }
 }
