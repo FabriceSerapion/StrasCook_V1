@@ -1,5 +1,9 @@
 {# TODO : manage errors display #}
 
+{% for error in errors %}
+{{error}}
+{% endfor %}
+
 <form method="post">
 	<input type="hidden" value="{{ tag.id }}" name="id">
 	<label for="name_tag">Nom du Tag</label>

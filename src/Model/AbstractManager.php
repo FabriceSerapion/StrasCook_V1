@@ -23,11 +23,14 @@ abstract class AbstractManager
     /**
      * Get all row from database.
      */
-    public function selectAll(string $orderBy = '', string $direction = 'ASC'): array
+    public function selectAll(int $limit = 0, string $orderBy = '', string $direction = 'ASC'): array
     {
         $query = 'SELECT * FROM ' . static::TABLE;
         if ($orderBy) {
             $query .= ' ORDER BY ' . $orderBy . ' ' . $direction;
+        }
+        if ($limit > 0) {
+            $query .= ' LIMIT ' . $limit;
         }
 
         return $this->pdo->query($query)->fetchAll();

@@ -17,14 +17,17 @@ class AdminController extends AbstractController
     {
         $menuManager = new MenuManager();
         $tagManager = new TagManager();
+        $cookManager = new CookManager();
         $menus = $menuManager->selectAll();
         $tags = $tagManager->selectAll();
+        $cooks = $cookManager->selectAll();
         foreach ($menus as $idx => $menu) {
             $tagsFromMenu = $tagManager->selectAllTagsFromMenu($menu['id']);
             $menus[$idx]["tags"] = $tagsFromMenu;
         }
         $data = ['menus' => $menus];
         $data ['tags'] = $tags;
+        $data ['cooks'] = $cooks;
 
         return $this->twig->render('Admin/admin.html.twig', $data);
     }
@@ -80,36 +83,34 @@ class AdminController extends AbstractController
     }
 
     /**
-     * Show informations for a specific item
-     */
-    // public function show(int $id, string $table): string
-    // {
-    //     $manager = $this->chooseTable($table);
-    //     $data = $manager->selectOneById($id);
-
-    //     return $this->twig->render('Admin/admin.html.twig', ['menu' => $data]);
-    // }
-
-    /**
      * Add a new item : item will be choosed in this method between Tag / Menu / Cook / booking
      */
     public function add(string $table): ?string
     {
-        //Cherche le chemin correct pour déplacer les data en front-end
+        //Looking for the correct path (twig)
         $path = $this->chooseReturn($table);
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            //Looking for the correct table
+            $manager = $this->chooseTable($table);
+
             // clean $_POST data
             $item = array_map('trim', $_POST);
+            foreach ($item as $key => $element) {
+                $element = trim(htmlspecialchars($item[$key]));
+                $item[$key] = $element;
+            }
 
-            // TODO validations (length, format...) AND IF NULL OR NOT
+            $errors = $manager->validation($item);
 
             // if validation is ok, insert and redirection
-            $manager = $this->chooseTable($table);
-            $manager->insert($item);
-
-            header('Location:/admin');
-            return null;
+            if (empty($errors)) {
+                $manager->insert($item);
+                header('Location:/admin');
+                return null;
+            } else {
+                return $this->twig->render('Item/add' . $path, ['errors' => $errors]);
+            }
         }
         return $this->twig->render('Item/add' . $path);
     }
@@ -119,25 +120,34 @@ class AdminController extends AbstractController
      */
     public function edit(int $id, string $table): ?string
     {
-        //Cherche la table pour modifier les bonnes data
+        //Looking for the correct table
         $manager = $this->chooseTable($table);
-        //Cherche le chemin correct pour déplacer les data en front-end
+        //Looking for the correct path (twig)
         $path = $this->chooseReturn($table);
 
         $item = $manager->selectOneById($id);
+        $itemSave = $item;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // clean $_POST data
             $item = array_map('trim', $_POST);
+            foreach ($item as $key => $element) {
+                $element = trim(htmlspecialchars($item[$key]));
+                $item[$key] = $element;
+            }
 
-            // TODO validations (length, format...) AND IF NULL OR NOT
+            $errors = $manager->validation($item);
 
-            // if validation is ok, update and redirection
-            $manager->update($item);
-
-            header('Location:/admin');
-
-            // we are redirecting so we don't want any content rendered
-            return null;
+            // if validation is ok, insert and redirection
+            if (empty($errors)) {
+                $manager->update($item);
+                header('Location:/admin');
+                return null;
+            } else {
+                $data = [];
+                $data[$manager::TABLE] = $itemSave;
+                $data['errors'] = $errors;
+                return $this->twig->render('Item/edit' . $path, $data);
+            }
         }
         return $this->twig->render('Item/edit' . $path, [$manager::TABLE => $item]);
     }
@@ -147,7 +157,7 @@ class AdminController extends AbstractController
      */
     public function delete(string $table): void
     {
-        //Cherche la table pour modifier les bonnes data
+        //Looking for the correct table
         $manager = $this->chooseTable($table);
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
