@@ -120,3 +120,10 @@ CREATE TABLE booking_menu (
     FOREIGN KEY (id_booking) REFERENCES booking(id),
     FOREIGN KEY (id_menu) REFERENCES menu(id)
 );
+
+INSERT INTO menu (name_menu, price_menu, note_menu)
+ VALUES
+ ('Menu A', 14.5, 4),
+ ('Menu B', 12, 3.5),
+ ('Menu C', 20, 4),
+ ('Menu D', 35, 3);

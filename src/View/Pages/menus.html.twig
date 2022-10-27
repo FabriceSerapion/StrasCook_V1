@@ -5,6 +5,7 @@
 
 {% block content %}
 
+
 	<main>
 
 		<section class="py-5 text-center container">
@@ -46,7 +47,28 @@
 									<div class="d-flex justify-content-between align-items-center">
 										<div class="btn-group">
 											<button type="button" class="btn btn-sm btn-outline-secondary">Ajouter au panier</button>
-											<button type="button" class="btn btn-sm btn-outline-secondary">Voir ce menu</button>
+											<button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal_{{menu.id}}">Voir ce menu</button>
+
+											{# modal #}
+											<div class="modal fade" id="modal_{{menu.id}}" tabindex="-1" role="dialog" aria-labelledby="modal_{{menu.id}}Title" aria-hidden="true">
+												<div class="modal-dialog modal-dialog-centered" role="document">
+													<div class="modal-content">
+														<div class="modal-header">
+															<h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+															<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+																<span aria-hidden="true">&times;</span>
+															</button>
+														</div>
+														<div class="modal-body">
+															<h4 class="card-text">{{menu.name_menu}}</h4>
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+														</div>
+													</div>
+												</div>
+											</div>
+
 										</div>
 										<small class="text-muted ms-4">{{menu.price_menu}}
 											€/ personne</small>
