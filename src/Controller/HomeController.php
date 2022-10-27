@@ -14,7 +14,7 @@ class HomeController extends AbstractController
     {
         $menuManager = new MenuManager();
         $tagManager = new TagManager();
-        $menus = $menuManager->selectAll(3);
+        $menus = $menuManager->selectAll(limit: 3);
         foreach ($menus as $idx => $menu) {
             $tagsFromMenu = $tagManager->selectAllTagsFromMenu($menu['id']);
             $menus[$idx]["tags"] = $tagsFromMenu;
