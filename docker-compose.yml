@@ -1,0 +1,55 @@
+volumes:
+  mariadb:
+  mariadb_config:
+
+networks:
+  app:
+
+services:
+
+  mariadb:
+    image: mariadb:10.9.3
+    ports:
+    - 3306:3306
+    environment:
+      - MYSQL_USER=usr
+      - MYSQL_DATABASE=stras_cook
+      - MYSQL_PASSWORD=P@ssword1
+      # ! do not use this in production
+      - MYSQL_ALLOW_EMPTY_PASSWORD="yes"
+    volumes:
+      - mariadb:/var/lib/mysql
+      - mariadb_config:/etc/mysql
+    networks:
+      - app
+
+  mariadb_seeder:
+    image: 'mariadb:10.9.3'
+    volumes:
+      - ./scripts/:/scripts
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+    entrypoint: [
+      "bash", 
+      "-c", 
+      # taking 10 seconds just to be sure both dev and test dbs are up
+      "sleep 10 \
+        && mysql --user=root --host=mariadb --port=3306 stras_cook < /scripts/database.sql \ 
+        && exit"
+    ] 
+    depends_on:
+      - mariadb
+    networks:
+      - app
+
+  phpapp:
+    build:
+      context: .
+    ports:
+    - 80:80
+    depends_on:
+      - mariadb
+    networks:
+      - app
+    volumes:
+      - ./:/var/www
