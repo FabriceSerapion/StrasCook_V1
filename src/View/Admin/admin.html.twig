@@ -47,7 +47,6 @@
 	</div>
 	<div class="forms-admin-books">
 		<ul>
-		{{dump(bookings)}}
 			{% for booking in bookings %}
 				<li>{{booking.date_booking}}</li>
 				<li>{{booking.adress_booking}}</li>
@@ -55,7 +54,7 @@
 				<li>{{booking.name_menu}}</li>
 				<li>{{booking.quantity_prestation}}</li>
 				<li>{{booking.is_lesson}}</li>
-				<li>{{booking.price_prestation}}</li>
+				<li>{{booking.price_prestation}} €</li>
 			{% endfor %}
 		</ul>
 	</div>

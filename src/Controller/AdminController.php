@@ -17,11 +17,11 @@ class AdminController extends AbstractController
     {
         //GET ALL MENUS
         $menuManager = new MenuManager();
-        $menus = $menuManager->selectAll();
+        $menus = $menuManager->selectAll(orderBy: 'note_menu');
 
         //GET ALL TAGS
         $tagManager = new TagManager();
-        $tags = $tagManager->selectAll();
+        $tags = $tagManager->selectAll(orderBy: 'name_tag');
 
         //LINK TAGS WITH MENUS
         foreach ($menus as $idx => $menu) {
@@ -31,7 +31,7 @@ class AdminController extends AbstractController
 
         //GET ALL COOKS
         $cookManager = new CookManager();
-        $cooks = $cookManager->selectAll();
+        $cooks = $cookManager->selectAll(orderBy: 'cook.firstname_cook');
 
         //GET ALL BOOKS
         $bookManager = new BookingManager();

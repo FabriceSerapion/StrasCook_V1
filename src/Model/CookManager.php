@@ -27,52 +27,21 @@ class CookManager extends AbstractManager
     }
 
     /**
-     * Update firstname cook in database
+     * Update menu in database
      */
-    public function updateFirstNameCook(array $cook): bool
+    public function update(array $cook): bool
     {
-        $statement = $this->pdo->prepare("UPDATE " . self::TABLE . " SET `firstname_cook` = :firstname_cook 
-        WHERE id_cook=:id_cook");
-        $statement->bindValue('id_cook', $cook['id_cook'], PDO::PARAM_INT);
+        $statement = $this->pdo->prepare("UPDATE " . self::TABLE . " SET 
+        `firstname_cook` = :firstname_cook,
+        `lastname_cook` = :lastname_cook,
+        `description_cook` = :description_cook,
+        `begin_cook` = :begin_cook,
+        `end_cook` = :end_cook
+        WHERE id=:id");
+        $statement->bindValue('id', $cook['id'], PDO::PARAM_INT);
         $statement->bindValue('firstname_cook', $cook['firstname_cook'], PDO::PARAM_STR);
-
-        return $statement->execute();
-    }
-
-        /**
-     * Update lastname cook in database
-     */
-    public function updateLastNameCook(array $cook): bool
-    {
-        $statement = $this->pdo->prepare("UPDATE " . self::TABLE . " SET `lastname_cook` = :lastname_cook 
-        WHERE id_cook=:id_cook");
-        $statement->bindValue('id_cook', $cook['id_cook'], PDO::PARAM_INT);
         $statement->bindValue('lastname_cook', $cook['lastname_cook'], PDO::PARAM_STR);
-
-        return $statement->execute();
-    }
-
-            /**
-     * Update description cook in database
-     */
-    public function updateDescriptionCook(array $cook): bool
-    {
-        $statement = $this->pdo->prepare("UPDATE " . self::TABLE . " SET `description_cook` = :description_cook 
-        WHERE id_cook=:id_cook");
-        $statement->bindValue('id_cook', $cook['id_cook'], PDO::PARAM_INT);
         $statement->bindValue('description_cook', $cook['description_cook'], PDO::PARAM_STR);
-
-        return $statement->execute();
-    }
-
-            /**
-     * Update available cook in database
-     */
-    public function updateAvailableCook(array $cook): bool
-    {
-        $statement = $this->pdo->prepare("UPDATE " . self::TABLE . " SET `begin_cook` = :begin_cook,
-        `end_cook` = :end_cook WHERE id_cook=:id_cook");
-        $statement->bindValue('id_cook', $cook['id_cook'], PDO::PARAM_INT);
         $statement->bindValue('begin_cook', $cook['begin_cook'], PDO::PARAM_INT);
         $statement->bindValue('end_cook', $cook['end_cook'], PDO::PARAM_INT);
 
@@ -85,11 +54,11 @@ class CookManager extends AbstractManager
     public function validation(array $item): array
     {
         $errors = array();
-        if (empty($item['firstname_cook'])) {
-            $errors[] = "Le pénonom du cuisinier est nécessaire !";
-        }
         if (empty($item['lastname_cook'])) {
             $errors[] = "Le nom du cuisinier est nécessaire !";
+        }
+        if (empty($item['firstname_cook'])) {
+            $errors[] = "Le prénom du cuisinier est nécessaire !";
         }
         if (empty($item['begin_cook']) || empty($item['end_cook'])) {
             $errors[] = "Veuillez préciser les disponibilités !";
