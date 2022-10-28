@@ -1,0 +1,38 @@
+{# TODO : manage errors display #}
+
+<form method="post">
+	<input type="hidden" value="{{ menu.id }}" name="id">
+
+	<label for="name_menu">Nom du menu</label>
+	<input type="text" value="{{ menu.name_menu }}" name="name_menu" id="name_menu">
+
+	<label for="price_menu">Prix du menu</label>
+	<input type="number" value="{{ menu.price_menu }}" name="price_menu" id="price_menu">
+
+	<label for="note_menu">Note du menu</label>
+	<input type="number" value="{{ menu.note_menu }}" name="note_menu" id="note_menu">
+
+	<label for="descr_menu_appetizer">Amuse bouche</label>
+	<textarea for="descr_menu_appetizer" id="descr_menu_appetizer" name="descr_menu_appetizer">{{ menu.descr_menu_appetizer }}</textarea>
+
+	<label for="descr_menu_starter">Entrée</label>
+	<textarea for="descr_menu_starter" id="descr_menu_starter" name="descr_menu_starter">{{ menu.descr_menu_starter }}</textarea>
+
+
+	<label for="descr_menu_meal">Plat principal</label>
+	<textarea for="descr_menu_meal" id="descr_menu_meal" name="descr_menu_meal">{{ menu.descr_menu_meal }}</textarea>
+
+
+	<label for="descr_menu_dessert">Dessert</label>
+	<textarea for="descr_menu_dessert" id="descr_menu_dessert" name="descr_menu_dessert">{{ menu.descr_menu_dessert }}</textarea>
+
+
+	<label for="descr_menu_cheese">Fromage</label>
+	<textarea for="descr_menu_cheese" id="descr_menu_cheese" name="descr_menu_cheese">{{ menu.descr_menu_cheese }}</textarea>
+
+
+	<label for="descr_menu_cuteness">Mignardise</label>
+	<textarea for="descr_menu_cuteness" id="descr_menu_cuteness" name="descr_menu_cuteness">{{ menu.descr_menu_cuteness }}</textarea>
+
+	<button>Submit</button>
+</form>
