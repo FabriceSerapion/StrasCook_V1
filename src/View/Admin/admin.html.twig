@@ -9,10 +9,10 @@
 			<ul>
 				{% for menu in menus %}
 					<li>{{menu.name_menu}}</li>
-					<a href="/items/edit?id={{ menu.id }}&table=0">Edit menu</a>
+					<a href="/items/edit?id={{ menu.id }}&table=0">Modifier le menu</a>
 					<form action="/items/delete?table=0" method="POST">
 						<input type="hidden" name="id" value="{{ menu.id }}">
-						<button>Delete menu</button>
+						<button>Supprimer le menu</button>
 					</form>
 				{% endfor %}
 			</ul>
@@ -23,13 +23,40 @@
 			<ul>
 				{% for tag in tags %}
 					<li>{{tag.name_tag}}</li>
-					<a href="/items/edit?id={{ tag.id }}&table=1">Edit tag</a>
+					<a href="/items/edit?id={{ tag.id }}&table=1">Modifier le tag</a>
 					<form action="/items/delete?table=1" method="POST">
 						<input type="hidden" name="id" value="{{ tag.id }}">
-						<button>Delete tag</button>
+						<button>Supprimer le tag</button>
 					</form>
 				{% endfor %}
 			</ul>
 		</div>
+		<div class="forms-admin-cooks">
+			<a href="/items/add?table=2">Ajouter un cuisinier !</a>
+			<ul>
+				{% for cook in cooks %}
+					<li>{{cook.firstname_cook}}</li>
+					<a href="/items/edit?id={{ cook.id }}&table=2">Modifier le cuisinier</a>
+					<form action="/items/delete?table=2" method="POST">
+						<input type="hidden" name="id" value="{{ cook.id }}">
+						<button>Supprimer le cuisinier</button>
+					</form>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	<div class="forms-admin-books">
+		<ul>
+		{{dump(bookings)}}
+			{% for booking in bookings %}
+				<li>{{booking.date_booking}}</li>
+				<li>{{booking.adress_booking}}</li>
+				<li>{{booking.firstname_cook}}</li>
+				<li>{{booking.name_menu}}</li>
+				<li>{{booking.quantity_prestation}}</li>
+				<li>{{booking.is_lesson}}</li>
+				<li>{{booking.price_prestation}}</li>
+			{% endfor %}
+		</ul>
 	</div>
 {% endblock %}

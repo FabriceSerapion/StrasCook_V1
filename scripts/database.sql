@@ -95,7 +95,6 @@ CREATE TABLE booking
     date_booking DATE NOT NULL,
 	adress_booking VARCHAR(255) NOT NULL,
 	price_prestation double NOT NULL,
-    is_lesson bool,
 	id_cook int NOT NULL,
     FOREIGN KEY (id_cook) REFERENCES cook(id)
 );
@@ -117,7 +116,9 @@ CREATE TABLE menu_tag (
 
 CREATE TABLE booking_menu (
 	id_booking int NOT NULL,
-    id_menu int NOT NULL,
+    id_menu int,
+    quantity_prestation int NOT NULL,
+    is_lesson bool,
     FOREIGN KEY (id_booking) REFERENCES booking(id),
     FOREIGN KEY (id_menu) REFERENCES menu(id)
 );

@@ -14,13 +14,13 @@ class CookManager extends AbstractManager
     public function insert(array $cook): int
     {
         $statement = $this->pdo->prepare("INSERT INTO " . self::TABLE . " (`firstname_cook`, `lastname_cook`, 
-        `description_cook`, `available_cook`) VALUES (:firstname_cook, :lastname_cook, :description_cook, 
+        `description_cook`, `begin_cook`, `end_cook`) VALUES (:firstname_cook, :lastname_cook, :description_cook, 
         :begin_cook, :end_cook)");
         $statement->bindValue('firstname_cook', $cook['firstname_cook'], PDO::PARAM_STR);
         $statement->bindValue('lastname_cook', $cook['lastname_cook'], PDO::PARAM_STR);
         $statement->bindValue('description_cook', $cook['description_cook'], PDO::PARAM_STR);
-        $statement->bindValue('begin_cook', $cook['begin_cook'], PDO::PARAM_STR);
-        $statement->bindValue('end_cook', $cook['end_cook'], PDO::PARAM_STR);
+        $statement->bindValue('begin_cook', $cook['begin_cook'], PDO::PARAM_INT);
+        $statement->bindValue('end_cook', $cook['end_cook'], PDO::PARAM_INT);
 
         $statement->execute();
         return (int)$this->pdo->lastInsertId();
@@ -73,8 +73,8 @@ class CookManager extends AbstractManager
         $statement = $this->pdo->prepare("UPDATE " . self::TABLE . " SET `begin_cook` = :begin_cook,
         `end_cook` = :end_cook WHERE id_cook=:id_cook");
         $statement->bindValue('id_cook', $cook['id_cook'], PDO::PARAM_INT);
-        $statement->bindValue('begin_cook', $cook['begin_cook'], PDO::PARAM_STR);
-        $statement->bindValue('end_cook', $cook['end_cook'], PDO::PARAM_STR);
+        $statement->bindValue('begin_cook', $cook['begin_cook'], PDO::PARAM_INT);
+        $statement->bindValue('end_cook', $cook['end_cook'], PDO::PARAM_INT);
 
         return $statement->execute();
     }

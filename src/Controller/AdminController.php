@@ -15,19 +15,33 @@ class AdminController extends AbstractController
      */
     public function indexAdmin(): string
     {
+        //GET ALL MENUS
         $menuManager = new MenuManager();
-        $tagManager = new TagManager();
-        $cookManager = new CookManager();
         $menus = $menuManager->selectAll();
+
+        //GET ALL TAGS
+        $tagManager = new TagManager();
         $tags = $tagManager->selectAll();
-        $cooks = $cookManager->selectAll();
+
+        //LINK TAGS WITH MENUS
         foreach ($menus as $idx => $menu) {
             $tagsFromMenu = $tagManager->selectAllTagsFromMenu($menu['id']);
             $menus[$idx]["tags"] = $tagsFromMenu;
         }
+
+        //GET ALL COOKS
+        $cookManager = new CookManager();
+        $cooks = $cookManager->selectAll();
+
+        //GET ALL BOOKS
+        $bookManager = new BookingManager();
+        $bookings = $bookManager->selectAll(limit: 5, orderBy: 'booking.date_booking');
+
+        //PUSH DATAS IN TWIG
         $data = ['menus' => $menus];
         $data ['tags'] = $tags;
         $data ['cooks'] = $cooks;
+        $data ['bookings'] = $bookings;
 
         return $this->twig->render('Admin/admin.html.twig', $data);
     }
