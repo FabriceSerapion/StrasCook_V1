@@ -10,17 +10,36 @@ class BookingManager extends AbstractManager
     public const TABLEJOIN = 'booking_menu';
 
     /**
+     * Get all row from database.
+     */
+    public function selectAll(int $limit = 0, string $orderBy = '', string $direction = 'ASC'): array
+    {
+        $query = 'SELECT booking.date_booking, booking.adress_booking, booking.price_prestation, menu.name_menu, 
+        booking_menu.quantity_prestation, booking_menu.is_lesson, cook.firstname_cook FROM booking 
+        INNER JOIN cook ON booking.id_cook = cook.id
+        INNER JOIN booking_menu ON booking.id = booking_menu.id_booking
+        INNER JOIN menu ON booking_menu.id_menu = menu.id';
+        if ($orderBy) {
+            $query .= ' ORDER BY ' . $orderBy . ' ' . $direction;
+        }
+        if ($limit > 0) {
+            $query .= ' LIMIT ' . $limit;
+        }
+
+        return $this->pdo->query($query)->fetchAll();
+    }
+
+    /**
      * Insert new booking in database
      */
     public function insertBooking(array $booking): int
     {
         $statement = $this->pdo->prepare("INSERT INTO " . self::TABLE . " (`date_booking`, `adress_booking`, 
-        `price_prestation`, `is_lesson`, `id_cook`) VALUES (:date_booking, :adress_booking, :price_prestation, 
-        :is_lesson, :id_cook)");
+        `price_prestation`, `id_cook`) VALUES (:date_booking, :adress_booking, 
+        :price_prestation, :id_cook)");
         $statement->bindValue('date_booking', $booking['date_booking'], PDO::PARAM_STR);
         $statement->bindValue('adress_booking', $booking['adress_booking'], PDO::PARAM_STR);
         $statement->bindValue('price_prestation', $booking['price_prestation'], PDO::PARAM_INT);
-        $statement->bindValue('is_lesson', $booking['is_lesson'], PDO::PARAM_BOOL);
         $statement->bindValue('id_cook', $booking['id_cook'], PDO::PARAM_INT);
 
         $statement->execute();
@@ -91,29 +110,5 @@ class BookingManager extends AbstractManager
         $statement->bindValue('id_cook', $booking['id_cook'], PDO::PARAM_INT);
 
         return $statement->execute();
-    }
-
-        /**
-     * Get one row from database by ID.
-     */
-    public function selectOneBookingById(int $id): array|false
-    {
-        // prepared request
-        $statement = $this->pdo->prepare("SELECT * FROM " . self::TABLE . " WHERE id_booking=:id_booking");
-        $statement->bindValue('id_booking', $id, \PDO::PARAM_INT);
-        $statement->execute();
-
-        return $statement->fetch();
-    }
-
-    /**
-     * Delete row form an ID
-     */
-    public function deleteCook(int $id): void
-    {
-        // prepared request
-        $statement = $this->pdo->prepare("DELETE FROM " . self::TABLE . " WHERE id_booking=:id_booking");
-        $statement->bindValue('id_booking', $id, \PDO::PARAM_INT);
-        $statement->execute();
     }
 }

@@ -5,12 +5,12 @@
 <form method="post">
 	<input type="hidden" value="{{ cook.id }}" name="id">
 	<label for="lastname_cook">Nom du cuisinier</label>
-	<input type="text" value="{{ cook.name_cook }}" name="lastname_cook" id="lastname_cook">
+	<input type="text" value="{{ cook.lastname_cook }}" name="lastname_cook" id="lastname_cook">
 	<label for="firstname_cook">Prénom du cuisinier</label>
-	<input type="text" value="{{ cook.name_cook }}" name="firstname_cook" id="firstname_cook">
+	<input type="text" value="{{ cook.firstname_cook }}" name="firstname_cook" id="firstname_cook">
 	<label for="available_cook">Disponibilité du cuisinier</label>
-	<input type="text" value="{{ cook.name_cook }}" name="begin_cook" id="begin_cook">
-	<input type="text" value="{{ cook.name_cook }}" name="end_cook" id="end_cook">
+	<input type="text" value="{{ cook.begin_cook }}" name="begin_cook" id="begin_cook">
+	<input type="text" value="{{ cook.end_cook }}" name="end_cook" id="end_cook">
 	<label for="description_cook">Description du cuisinier</label>
 	<textarea for="description_cook" id="description_cook" name="description_cook">{{ cook.description_cook }}</textarea>
 	<button>Submit</button>
