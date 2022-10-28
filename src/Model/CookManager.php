@@ -27,7 +27,7 @@ class CookManager extends AbstractManager
     }
 
     /**
-     * Update menu in database
+     * Update cook in database
      */
     public function update(array $cook): bool
     {
