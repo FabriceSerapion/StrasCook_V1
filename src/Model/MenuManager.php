@@ -29,7 +29,7 @@ class MenuManager extends AbstractManager
         ) VALUES (
             :name_menu,
             :price_menu,
-            :note_menu,
+            0,
             :descr_menu_appetizer,
             :descr_menu_starter,
             :descr_menu_meal,
@@ -40,7 +40,6 @@ class MenuManager extends AbstractManager
 
         $statement->bindValue('name_menu', $menu['name_menu'], PDO::PARAM_STR);
         $statement->bindValue('price_menu', $menu['price_menu'], PDO::PARAM_INT);
-        $statement->bindValue('note_menu', $menu['note_menu'], PDO::PARAM_INT);
         $statement->bindValue('descr_menu_appetizer', $menu['descr_menu_appetizer'], PDO::PARAM_STR);
         $statement->bindValue('descr_menu_starter', $menu['descr_menu_starter'], PDO::PARAM_STR);
         $statement->bindValue('descr_menu_meal', $menu['descr_menu_meal'], PDO::PARAM_STR);
@@ -60,7 +59,6 @@ class MenuManager extends AbstractManager
         $statement = $this->pdo->prepare("UPDATE " . self::TABLE . " SET 
         `name_menu` = :name_menu,
         `price_menu` = :price_menu,
-        `note_menu` = :note_menu, 
         `descr_menu_appetizer` = :descr_menu_appetizer,
         `descr_menu_starter` = :descr_menu_starter,
         `descr_menu_meal` = :descr_menu_meal,
@@ -71,7 +69,6 @@ class MenuManager extends AbstractManager
         $statement->bindValue('id', $menu['id'], PDO::PARAM_INT);
         $statement->bindValue('name_menu', $menu['name_menu'], PDO::PARAM_STR);
         $statement->bindValue('price_menu', $menu['price_menu'], PDO::PARAM_INT);
-        $statement->bindValue('note_menu', $menu['note_menu'], PDO::PARAM_INT);
         $statement->bindValue('descr_menu_appetizer', $menu['descr_menu_appetizer'], PDO::PARAM_STR);
         $statement->bindValue('descr_menu_starter', $menu['descr_menu_starter'], PDO::PARAM_STR);
         $statement->bindValue('descr_menu_meal', $menu['descr_menu_meal'], PDO::PARAM_STR);
@@ -80,5 +77,21 @@ class MenuManager extends AbstractManager
         $statement->bindValue('descr_menu_cuteness', $menu['descr_menu_cuteness'], PDO::PARAM_STR);
 
         return $statement->execute();
+    }
+
+/**
+     * Validation method specific for this item
+     */
+    public function validation(array $item): array
+    {
+        $errors = array();
+        if (empty($item['name_menu'])) {
+            $errors[] = "Le nom du menu est nécessaire !";
+        }
+        if (empty($item['price_menu'])) {
+            $errors[] = "Le prix du menu est nécessaire !";
+        }
+        // TODO : check if there is at least 1 description
+        return $errors;
     }
 }

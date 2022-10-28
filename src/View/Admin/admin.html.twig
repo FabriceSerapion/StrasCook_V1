@@ -5,12 +5,12 @@
 
 	<div class="forms-admin d-flex justify-content-around">
 		<div class="forms-admin-menus">
-			<a href="/tags/add?table=0">Ajouter un menu !</a>
+			<a href="/items/add?table=0">Ajouter un menu !</a>
 			<ul>
 				{% for menu in menus %}
 					<li>{{menu.name_menu}}</li>
-					<a href="/tags/edit?id={{ menu.id }}&table=0">Edit menu</a>
-					<form action="/tags/delete?table=0" method="POST">
+					<a href="/items/edit?id={{ menu.id }}&table=0">Edit menu</a>
+					<form action="/items/delete?table=0" method="POST">
 						<input type="hidden" name="id" value="{{ menu.id }}">
 						<button>Delete menu</button>
 					</form>
@@ -19,12 +19,12 @@
 
 		</div>
 		<div class="forms-admin-tags">
-			<a href="/tags/add?table=1">Ajouter un tag !</a>
+			<a href="/items/add?table=1">Ajouter un tag !</a>
 			<ul>
 				{% for tag in tags %}
 					<li>{{tag.name_tag}}</li>
-					<a href="/tags/edit?id={{ tag.id }}&table=1">Edit tag</a>
-					<form action="/tags/delete?table=1" method="POST">
+					<a href="/items/edit?id={{ tag.id }}&table=1">Edit tag</a>
+					<form action="/items/delete?table=1" method="POST">
 						<input type="hidden" name="id" value="{{ tag.id }}">
 						<button>Delete tag</button>
 					</form>
