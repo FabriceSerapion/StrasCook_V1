@@ -1,4 +1,6 @@
-{# TODO : manage errors display #}
+{% for error in errors %}
+{{error}}
+{% endfor %}
 
 <form method="post">
 	<input type="hidden" value="{{ menu.id }}" name="id">
@@ -8,9 +10,6 @@
 
 	<label for="price_menu">Prix du menu</label>
 	<input type="number" value="{{ menu.price_menu }}" name="price_menu" id="price_menu">
-
-	<label for="note_menu">Note du menu</label>
-	<input type="number" value="{{ menu.note_menu }}" name="note_menu" id="note_menu">
 
 	<label for="descr_menu_appetizer">Amuse bouche</label>
 	<textarea for="descr_menu_appetizer" id="descr_menu_appetizer" name="descr_menu_appetizer">{{ menu.descr_menu_appetizer }}</textarea>

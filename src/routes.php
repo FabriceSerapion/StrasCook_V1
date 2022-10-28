@@ -11,11 +11,6 @@ use App\Controller\MenusController;
 
 return [
     '' => ['HomeController', 'index',],
-    'items' => ['ItemController', 'index',],
-    'items/edit' => ['ItemController', 'edit', ['id']],
-    'items/show' => ['ItemController', 'show', ['id']],
-    'items/add' => ['ItemController', 'add',],
-    'items/delete' => ['ItemController', 'delete',],
     'about' => ['AboutController', 'about'],
     'menus' => ['MenusController', 'indexMenus'],
     'menus/show' => ['MenusController', 'showOneMenu', ['id']],
@@ -24,8 +19,8 @@ return [
     'user' => ['UserController', 'userConnect'],
     'basket' => ['BasketController', 'basket'],
     'admin' => ['AdminController', 'indexAdmin'],
-    'tags/edit' => ['AdminController', 'edit', ['id', 'table']],
-    'tags/show' => ['AdminController', 'show', ['id'], ['table']],
-    'tags/add' => ['AdminController', 'add', ['table']],
-    'tags/delete' => ['AdminController', 'delete', ['table']],
+    'items/edit' => ['AdminController', 'edit', ['id', 'table']],
+    'items/show' => ['AdminController', 'show', ['id'], ['table']],
+    'items/add' => ['AdminController', 'add', ['table']],
+    'items/delete' => ['AdminController', 'delete', ['table']],
 ];

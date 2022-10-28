@@ -81,7 +81,8 @@ CREATE TABLE cook
     firstname_cook VARCHAR(50) NOT NULL,
 	lastname_cook VARCHAR(50) NOT NULL,
 	description_cook text,
-	available_cook VARCHAR(5) NOT NULL
+	begin_cook VARCHAR(2) NOT NULL,
+    end_cook VARCHAR(2) NOT NULL
 );
 
 --
