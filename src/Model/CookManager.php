@@ -15,11 +15,12 @@ class CookManager extends AbstractManager
     {
         $statement = $this->pdo->prepare("INSERT INTO " . self::TABLE . " (`firstname_cook`, `lastname_cook`, 
         `description_cook`, `available_cook`) VALUES (:firstname_cook, :lastname_cook, :description_cook, 
-        :available_cook)");
+        :begin_cook, :end_cook)");
         $statement->bindValue('firstname_cook', $cook['firstname_cook'], PDO::PARAM_STR);
         $statement->bindValue('lastname_cook', $cook['lastname_cook'], PDO::PARAM_STR);
         $statement->bindValue('description_cook', $cook['description_cook'], PDO::PARAM_STR);
-        $statement->bindValue('available_cook', $cook['DEBUT'] . ',' . $cook['FIN'], PDO::PARAM_STR);
+        $statement->bindValue('begin_cook', $cook['begin_cook'], PDO::PARAM_STR);
+        $statement->bindValue('end_cook', $cook['end_cook'], PDO::PARAM_STR);
 
         $statement->execute();
         return (int)$this->pdo->lastInsertId();
@@ -69,10 +70,11 @@ class CookManager extends AbstractManager
      */
     public function updateAvailableCook(array $cook): bool
     {
-        $statement = $this->pdo->prepare("UPDATE " . self::TABLE . " SET `available_cook` = :available_cook 
-        WHERE id_cook=:id_cook");
+        $statement = $this->pdo->prepare("UPDATE " . self::TABLE . " SET `begin_cook` = :begin_cook,
+        `end_cook` = :end_cook WHERE id_cook=:id_cook");
         $statement->bindValue('id_cook', $cook['id_cook'], PDO::PARAM_INT);
-        $statement->bindValue('available_cook', $cook['DEBUT'] . ',' . $cook['FIN'], PDO::PARAM_STR);
+        $statement->bindValue('begin_cook', $cook['begin_cook'], PDO::PARAM_STR);
+        $statement->bindValue('end_cook', $cook['end_cook'], PDO::PARAM_STR);
 
         return $statement->execute();
     }
@@ -89,7 +91,7 @@ class CookManager extends AbstractManager
         if (empty($item['lastname_cook'])) {
             $errors[] = "Le nom du cuisinier est nécessaire !";
         }
-        if (empty($item['available_cook'])) {
+        if (empty($item['begin_cook']) || empty($item['end_cook'])) {
             $errors[] = "Veuillez préciser les disponibilités !";
         }
         return $errors;
