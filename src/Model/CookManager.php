@@ -8,6 +8,8 @@ class CookManager extends AbstractManager
 {
     public const TABLE = 'cook';
 
+    public const PATH = 'Cook.html.twig';
+
     /**
      * Insert new cook in database
      */

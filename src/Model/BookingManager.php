@@ -9,6 +9,8 @@ class BookingManager extends AbstractManager
     public const TABLE = 'BOOKING';
     public const TABLEJOIN = 'booking_menu';
 
+    public const PATH = 'Booking.html.twig';
+
     /**
      * Get all row from database.
      */
