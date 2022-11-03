@@ -114,19 +114,22 @@ class AdminController extends AbstractController
         //Looking for the correct table
         $manager = $this->chooseTable($table);
 
-        //Finding the correct item
-        $item = $manager->selectOneById($id);
+        //Validation --> id must be numeric
+        if (is_numeric($id)) {
+            //Finding the correct item
+            $item = $manager->selectOneById($id);
 
-        //Specific for a menu --> finding all tags linked
-        if ($table == 0) {
-            $tagManager = new TagManager();
-            $tagsFromMenu = $tagManager->selectAllTagsFromMenu($id);
-            $allTags = '';
-            foreach ($tagsFromMenu as $tags) {
-                $allTags = $allTags . ' ' . $tags['name_tag'];
+            //Specific for a menu --> finding all tags linked
+            if ($table == 0) {
+                $tagManager = new TagManager();
+                $tagsFromMenu = $tagManager->selectAllTagsFromMenu($id);
+                $allTags = '';
+                foreach ($tagsFromMenu as $tags) {
+                    $allTags = $allTags . ' ' . $tags['name_tag'];
+                }
+                $allTags = trim($allTags);
+                $item["tags"] = $allTags;
             }
-            $allTags = trim($allTags);
-            $item["tags"] = $allTags;
         }
 
         //Saving the original item before modifications
@@ -179,38 +182,6 @@ class AdminController extends AbstractController
     }
 
     /**
-     * Modifying tags linked in menu
-     */
-    public function specificUpdate(array $newMenu, array $oldMenu): void
-    {
-        $tagManager = new TagManager();
-        $menuManager = new MenuManager();
-        $newTags = explode(' ', $newMenu['tags']);
-        //Compare old tags and new tags
-        if ($newMenu['tags'] != $oldMenu['tags']) {
-            $oldTags = explode(' ', $oldMenu['tags']);
-            //Adding tags if a new tag is found
-            foreach ($newTags as $newTag) {
-                if (!in_array($newTag, $oldTags)) {
-                    $tagExist = $tagManager->selectTagFromName($newTag);
-                    if ($tagExist) {
-                        $menuManager->insertTagInMenu($newMenu['id'], $tagExist['id']);
-                    }
-                }
-            }
-            //Deletind tags if there are not found
-            foreach ($oldTags as $oldTag) {
-                if (!in_array($oldTag, $newTags)) {
-                    $tagExist = $tagManager->selectTagFromName($oldTag);
-                    if ($tagExist) {
-                        $menuManager->deleteTagInMenu($newMenu['id'], $tagExist['id']);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
      * Creating menu and link tags to menu
      */
     public function specificInsertion(array $newMenu): void
@@ -218,12 +189,73 @@ class AdminController extends AbstractController
         $tagManager = new TagManager();
         $menuManager = new MenuManager();
         $newTags = explode(' ', $newMenu['tags']);
-        $idMenu = $menuManager->selectOneMenuByName($newMenu['name_menu']);
+        //Validation --> newMenu['name_menu'] must be string
+        $nameMenuValidated = trim(htmlspecialchars($newMenu['name_menu']));
+        $idMenu = $menuManager->selectOneMenuByName($nameMenuValidated);
         foreach ($newTags as $newTag) {
-            $tagExist = $tagManager->selectTagFromName($newTag);
-            if ($tagExist) {
+            //Validation --> newTag must be string
+            $newTagValidated = trim(htmlspecialchars($newTag));
+            $tagExist = $tagManager->selectTagFromName($newTagValidated);
+            //Validation --> tag must exist and ids must be numerics
+            if ($tagExist && is_numeric($idMenu['id']) && is_numeric($tagExist['id'])) {
                 $menuManager->insertTagInMenu($idMenu['id'], $tagExist['id']);
             }
+        }
+    }
+
+    /**
+     * Modifying tags linked in menu
+     */
+    public function specificUpdate(array $newMenu, array $oldMenu): void
+    {
+        $newTags = explode(' ', $newMenu['tags']);
+        //Compare old tags and new tags
+        if ($newMenu['tags'] != $oldMenu['tags']) {
+            $oldTags = explode(' ', $oldMenu['tags']);
+            //Adding tags if a new tag is found
+            foreach ($newTags as $newTag) {
+                if (!in_array($newTag, $oldTags)) {
+                    $this->findAndInsertion($newTag, $newMenu);
+                }
+            }
+            //Deletind tags if there are not found
+            foreach ($oldTags as $oldTag) {
+                if (!in_array($oldTag, $newTags)) {
+                    $this->findAndDelete($oldTag, $newMenu);
+                }
+            }
+        }
+    }
+
+    /**
+     * If tag is found and verified, can be added to the menu modified
+     */
+    public function findAndInsertion(string $newTag, array $newMenu): void
+    {
+        $tagManager = new TagManager();
+        $menuManager = new MenuManager();
+        //Validation --> newTag must be string
+        $newTagValidated = trim(htmlspecialchars($newTag));
+        $tagExist = $tagManager->selectTagFromName($newTagValidated);
+        //Validation --> tag must exist and ids must be numerics
+        if ($tagExist && is_numeric($newMenu['id']) && is_numeric($tagExist['id'])) {
+            $menuManager->insertTagInMenu($newMenu['id'], $tagExist['id']);
+        }
+    }
+
+    /**
+     * If tag is found and verified, can be deleted to the menu modified
+     */
+    public function findAndDelete(string $oldTag, array $newMenu): void
+    {
+        $tagManager = new TagManager();
+        $menuManager = new MenuManager();
+        //Validation --> newTag must be string
+        $oldTagValidated = trim(htmlspecialchars($oldTag));
+        $tagExist = $tagManager->selectTagFromName($oldTagValidated);
+        //Validation --> tag must exist and ids must be numerics
+        if ($tagExist && is_numeric($newMenu['id']) && is_numeric($tagExist['id'])) {
+            $menuManager->deleteTagInMenu($newMenu['id'], $tagExist['id']);
         }
     }
 }
