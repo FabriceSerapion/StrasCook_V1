@@ -27,6 +27,27 @@ class MenuManager extends AbstractManager
     // }
 
     /**
+     * Get all menus from database search by tag.
+     */
+    public function selectAllFromTag(string $tag): array|false
+    {
+        if (empty($tag)) {
+            $statement = $this->pdo->prepare("SELECT * FROM " . static::TABLE);
+            $statement->execute();
+        } else {
+            $statement = $this->pdo->prepare("SELECT menu.id, menu.name_menu, menu.price_menu, menu.note_menu, 
+            menu.descr_menu_appetizer, menu.descr_menu_starter, menu.descr_menu_meal, menu.descr_menu_dessert, 
+            menu.descr_menu_cheese, menu.descr_menu_cuteness FROM tag
+            INNER JOIN menu_tag ON tag.id = menu_tag.id_tag
+            INNER JOIN menu ON menu_tag.id_menu = menu.id
+            WHERE tag.name_tag = :tag");
+            $statement->bindValue('tag', $tag, \PDO::PARAM_STR);
+            $statement->execute();
+        }
+        return $statement->fetchAll();
+    }
+
+    /**
      * Get one menu by name of it.
      */
     public function selectOneMenuByName(string $nameMenu): array|false
