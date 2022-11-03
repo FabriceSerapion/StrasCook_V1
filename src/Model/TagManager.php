@@ -9,6 +9,8 @@ class TagManager extends AbstractManager
     public const TABLE = 'tag';
     public const TABLEJOIN = 'menu_tag';
 
+    public const PATH = 'Tag.html.twig';
+
     /**
      * Get all tags for one menu from database by ID.
      */
@@ -23,6 +25,19 @@ class TagManager extends AbstractManager
         $statement->bindValue('id', $id, \PDO::PARAM_INT);
         $statement->execute();
         return $statement->fetchAll();
+    }
+
+    /**
+     * Get one id tag from its name from database by ID.
+     */
+    public function selectTagFromName(string $newTag): array|false
+    {
+        // prepared request
+        $statement = $this->pdo->prepare("SELECT id FROM " . self::TABLE . " WHERE name_tag = :newTag");
+        $statement->bindValue('newTag', $newTag, \PDO::PARAM_STR);
+        $statement->execute();
+
+        return $statement->fetch();
     }
 
     /**

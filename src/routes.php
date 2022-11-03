@@ -13,7 +13,7 @@ return [
     '' => ['HomeController', 'index',],
     'about' => ['AboutController', 'about'],
     'menus' => ['MenusController', 'indexMenus'],
-    'menus/show' => ['MenusController', 'showOneMenu', ['id']],
+    'menus/show' => ['MenusController', 'showMenus', ['tag']],
     'lessons' => ['LessonsController', 'lessons'],
     'gifts' => ['GiftsController', 'gifts'],
     'user' => ['UserController', 'userConnect'],
