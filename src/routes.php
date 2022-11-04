@@ -11,6 +11,9 @@ use App\Controller\MenusController;
 
 return [
     '' => ['HomeController', 'index',],
+    'booking' => ['BookingController', 'booking', ['adress', 'date', 'hour', 'benefit']],
+    'bookingMenu' => ['BookingController', 'bookingMenu', ['adress', 'date', 'hour', 'benefit', 'idMenu']],
+    'bookingValidation' => ['BookingController', 'bookingValidation', ['adress', 'date', 'hour', 'benefit', 'idMenu']],
     'about' => ['AboutController', 'about'],
     'menus' => ['MenusController', 'indexMenus'],
     'menus/show' => ['MenusController', 'showMenus', ['tag']],
