@@ -100,7 +100,11 @@ class AdminController extends AbstractController
                 header('Location:/admin');
                 return null;
             } else {
-                return $this->twig->render('Item/add' . $manager::PATH, ['errors' => $errors]);
+                //Show errors
+                $data = [];
+                $data[$manager::TABLE] = $item;
+                $data['errors'] = $errors;
+                return $this->twig->render('Item/add' . $manager::PATH, $data);
             }
         }
         return $this->twig->render('Item/add' . $manager::PATH);

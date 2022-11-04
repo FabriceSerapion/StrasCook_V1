@@ -165,6 +165,11 @@ class MenuManager extends AbstractManager
     public function validation(array $item): array
     {
         $errors = array();
+        $menuFound = array();
+        $menuFound = $this->selectOneMenuByName($item['name_menu']);
+        if (!empty($menuFound) && $menuFound['id'] != $item['id']) {
+            $errors[] = "Le nom du menu est déjà existant !";
+        }
         if (empty($item['name_menu'])) {
             $errors[] = "Le nom du menu est nécessaire !";
         }

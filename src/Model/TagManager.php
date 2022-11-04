@@ -84,6 +84,11 @@ class TagManager extends AbstractManager
     public function validation(array $item): array
     {
         $errors = array();
+        $tagFound = array();
+        $tagFound = $this->selectTagFromName($item['name_tag']);
+        if (!empty($tagFound) && $tagFound['id'] != $item['id']) {
+            $errors[] = "Le nom du tag est déjà existant !";
+        }
         if (empty($item['name_tag'])) {
             $errors[] = "Le nom du tag est nécessaire !";
         }
