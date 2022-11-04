@@ -22,5 +22,12 @@ class HomeController extends AbstractController
         $data = ['menus' => $menus];
 
         return $this->twig->render('Home/index.html.twig', $data);
+        // $authed = $_SESSION['authed'] ?? false;
+        // if ($authed) {
+        //     return $this->twig->render('Home/index.html.twig');
+        // } else {
+        //     \header('Location: /login');
+        //     return '';
+        // }
     }
 }

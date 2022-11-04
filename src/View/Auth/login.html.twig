@@ -1,0 +1,26 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+	<div class="h-100 d-flex justify-content-center align-items-center">
+		<form action="/login" method="POST" class="w-25 p-3">
+			<h1>Connectez vous</h1>
+			<div class="mb-3">
+				<label for="username" class="form-label">Nom d'utilisateur</label>
+				<input type="text" class="form-control" id="username" name="username" placeholder="your username">
+				<div class="mb-3">
+					<label for="password" class="form-label">Password</label>
+					<input name="password" type="password" class="form-control" id="password" placeholder="Password">
+				</div>
+				<input class="w-100 btn btn-lg btn-primary" type="submit" value="login" name="submit">
+			</form>
+			<p>Si vous n'avez pas de compte, veuillez d'abord en créer un
+				<a href="/signup">ici</a>
+			</p>
+		</div>
+
+		{% if error %}
+			<p>
+				{{error}}
+			</p>
+		{% endif %}
+	{% endblock %}
