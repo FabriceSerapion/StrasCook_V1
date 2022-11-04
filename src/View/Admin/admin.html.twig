@@ -1,8 +1,9 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
-	<h1>Interface Administrateur</h1>
-
+	<div class="d-flex justify-content-center mt-4">
+		<h1>Interface Administrateur</h1>
+	</div>
 	<div class="forms-admin d-flex justify-content-around">
 		<div class="forms-admin-menus">
 			<a href="/items/add?table=0">Ajouter un menu !</a>
@@ -54,7 +55,8 @@
 				<li>{{booking.name_menu}}</li>
 				<li>{{booking.quantity_prestation}}</li>
 				<li>{{booking.is_lesson}}</li>
-				<li>{{booking.price_prestation}} €</li>
+				<li>{{booking.price_prestation}}
+					€</li>
 			{% endfor %}
 		</ul>
 	</div>

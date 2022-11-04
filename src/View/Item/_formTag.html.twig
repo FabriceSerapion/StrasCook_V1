@@ -1,10 +1,14 @@
 {% for error in errors %}
-{{error}}
+	{{error}}
 {% endfor %}
 
 <form method="post">
 	<input type="hidden" value="{{ tag.id }}" name="id">
-	<label for="name_tag">Nom du Tag</label>
-	<input type="text" value="{{ tag.name_tag }}" name="name_tag" id="name_tag">
-	<button>Submit</button>
+	<div class="form-group my-4">
+		<label for="name_tag">Nom du Tag</label>
+		<input class="form-control" type="text" value="{{ tag.name_tag }}" name="name_tag" id="name_tag">
+	</div>
+	<div class="d-flex justify-content-center">
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</div>
 </form>
