@@ -2,17 +2,15 @@
 
 {% extends 'layout.html.twig' %}
 
-
-
 {% block stylesheet %}
-<link rel="stylesheet" href="/assets/css/home.css">
+	<link rel="stylesheet" href="/assets/css/home.css">
 {% endblock %}
 {% block content %}
 	<section class="accueil bg-dark d-flex w-100 h-50 flex-column justify-content-center align-items-center">
 		<h1 class="display-1 text-white text-center">Adoptez votre chef à domicile pour savourer les délices du monde!</h1>
 		<p class="load text-center text-white">Vivez une expérience unique avec ce nouveau concept tendance qui est une alternative au restaurant</p>
 	</section>
-	
+
 	<div id="form-line">
 		<div class="container">
 			<form action="/booking?adress={{ adress }}&date={{ date }}&hour={{ hour }}&benefit={{ benefit }}" method="GET">
@@ -66,4 +64,16 @@
 			</form>
 		</div>
 	</div>
+
+{% endblock %}
+
+{% block container_greet %}
+	{% if user.username is defined %}
+		<h1>Bonjour
+			{{user.username}}
+			!</h1>
+		<a href="/logout">logout</a>
+	{% else %}
+		<h1>Bonjour nouveau client !</h1>
+	{% endif %}
 {% endblock %}

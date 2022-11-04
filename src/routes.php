@@ -26,4 +26,6 @@ return [
     'items/show' => ['AdminController', 'show', ['id'], ['table']],
     'items/add' => ['AdminController', 'add', ['table']],
     'items/delete' => ['AdminController', 'delete', ['table']],
+    'login' => ['UserController', 'login'],
+    'signup' => ['UserController', 'signup'],
 ];

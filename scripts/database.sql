@@ -123,9 +123,26 @@ CREATE TABLE booking_menu (
     FOREIGN KEY (id_menu) REFERENCES menu(id)
 );
 
+--
+-- Structure de la table `user`
+--
+
+CREATE TABLE user (
+  id int(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  username varchar(255) NOT NULL UNIQUE,
+  password varchar(255) NOT NULL,
+  isAdmin bool
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 INSERT INTO menu (name_menu, price_menu, note_menu)
  VALUES
  ('Menu A', 14.5, 4),
  ('Menu B', 12, 3.5),
  ('Menu C', 20, 4),
  ('Menu D', 35, 3);
+
+ INSERT INTO user (`username`, `password`, `isAdmin`)
+ VALUES 
+ ("admin", "admin", true),
+ ("fab", "test", false);
+ 
