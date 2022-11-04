@@ -15,19 +15,33 @@ class AdminController extends AbstractController
      */
     public function indexAdmin(): string
     {
+        //GET ALL MENUS
         $menuManager = new MenuManager();
+        $menus = $menuManager->selectAll(orderBy: 'note_menu');
+
+        //GET ALL TAGS
         $tagManager = new TagManager();
-        $cookManager = new CookManager();
-        $menus = $menuManager->selectAll();
-        $tags = $tagManager->selectAll();
-        $cooks = $cookManager->selectAll();
+        $tags = $tagManager->selectAll(orderBy: 'name_tag');
+
+        //LINK TAGS WITH MENUS
         foreach ($menus as $idx => $menu) {
             $tagsFromMenu = $tagManager->selectAllTagsFromMenu($menu['id']);
             $menus[$idx]["tags"] = $tagsFromMenu;
         }
+
+        //GET ALL COOKS
+        $cookManager = new CookManager();
+        $cooks = $cookManager->selectAll(orderBy: 'cook.firstname_cook');
+
+        //GET ALL BOOKS
+        $bookManager = new BookingManager();
+        $bookings = $bookManager->selectAll(limit: 5, orderBy: 'booking.date_booking');
+
+        //PUSH DATAS IN TWIG
         $data = ['menus' => $menus];
         $data ['tags'] = $tags;
         $data ['cooks'] = $cooks;
+        $data ['bookings'] = $bookings;
 
         return $this->twig->render('Admin/admin.html.twig', $data);
     }
@@ -58,42 +72,14 @@ class AdminController extends AbstractController
     }
 
     /**
-     * Method for choosing the correct path for CRUD
-     */
-    public function chooseReturn(string $table)
-    {
-        switch ($table) {
-            case '0':
-                $path = 'Menu.html.twig';
-                break;
-            case '1':
-                $path = 'Tag.html.twig';
-                break;
-            case '2':
-                $path = 'Cook.html.twig';
-                break;
-            case '3':
-                $path = 'Booking.html.twig';
-                break;
-            default:
-                $path = 'failed';
-                break;
-        }
-        return $path;
-    }
-
-    /**
      * Add a new item : item will be choosed in this method between Tag / Menu / Cook / booking
      */
     public function add(string $table): ?string
     {
-        //Looking for the correct path (twig)
-        $path = $this->chooseReturn($table);
+        //Looking for the correct table
+        $manager = $this->chooseTable($table);
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            //Looking for the correct table
-            $manager = $this->chooseTable($table);
-
             // clean $_POST data
             $item = array_map('trim', $_POST);
             foreach ($item as $key => $element) {
@@ -101,18 +87,23 @@ class AdminController extends AbstractController
                 $item[$key] = $element;
             }
 
+            //Validation for the item
             $errors = $manager->validation($item);
 
             // if validation is ok, insert and redirection
             if (empty($errors)) {
                 $manager->insert($item);
+                //Specific for a menu --> modifying tags linked
+                if ($table == 0) {
+                    $this->specificInsertion($item);
+                }
                 header('Location:/admin');
                 return null;
             } else {
-                return $this->twig->render('Item/add' . $path, ['errors' => $errors]);
+                return $this->twig->render('Item/add' . $manager::PATH, ['errors' => $errors]);
             }
         }
-        return $this->twig->render('Item/add' . $path);
+        return $this->twig->render('Item/add' . $manager::PATH);
     }
 
     /**
@@ -122,11 +113,28 @@ class AdminController extends AbstractController
     {
         //Looking for the correct table
         $manager = $this->chooseTable($table);
-        //Looking for the correct path (twig)
-        $path = $this->chooseReturn($table);
 
-        $item = $manager->selectOneById($id);
+        //Validation --> id must be numeric
+        if (is_numeric($id)) {
+            //Finding the correct item
+            $item = $manager->selectOneById($id);
+
+            //Specific for a menu --> finding all tags linked
+            if ($table == 0) {
+                $tagManager = new TagManager();
+                $tagsFromMenu = $tagManager->selectAllTagsFromMenu($id);
+                $allTags = '';
+                foreach ($tagsFromMenu as $tags) {
+                    $allTags = $allTags . ' ' . $tags['name_tag'];
+                }
+                $allTags = trim($allTags);
+                $item["tags"] = $allTags;
+            }
+        }
+
+        //Saving the original item before modifications
         $itemSave = $item;
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // clean $_POST data
             $item = array_map('trim', $_POST);
@@ -135,21 +143,27 @@ class AdminController extends AbstractController
                 $item[$key] = $element;
             }
 
+            //Validation for the item
             $errors = $manager->validation($item);
 
-            // if validation is ok, insert and redirection
+            // if validation is ok, update and redirection
             if (empty($errors)) {
-                $manager->update($item);
+                $manager->update($item, $itemSave);
+                //Specific for a menu --> modifying tags linked
+                if ($table == 0) {
+                    $this->specificUpdate($item, $itemSave);
+                }
                 header('Location:/admin');
                 return null;
             } else {
+                //Show errors
                 $data = [];
                 $data[$manager::TABLE] = $itemSave;
                 $data['errors'] = $errors;
-                return $this->twig->render('Item/edit' . $path, $data);
+                return $this->twig->render('Item/edit' . $manager::PATH, $data);
             }
         }
-        return $this->twig->render('Item/edit' . $path, [$manager::TABLE => $item]);
+        return $this->twig->render('Item/edit' . $manager::PATH, [$manager::TABLE => $item]);
     }
 
     /**
@@ -164,6 +178,84 @@ class AdminController extends AbstractController
             $id = trim($_POST['id']);
             $manager->delete((int)$id);
             header('Location:/admin');
+        }
+    }
+
+    /**
+     * Creating menu and link tags to menu
+     */
+    public function specificInsertion(array $newMenu): void
+    {
+        $tagManager = new TagManager();
+        $menuManager = new MenuManager();
+        $newTags = explode(' ', $newMenu['tags']);
+        //Validation --> newMenu['name_menu'] must be string
+        $nameMenuValidated = trim(htmlspecialchars($newMenu['name_menu']));
+        $idMenu = $menuManager->selectOneMenuByName($nameMenuValidated);
+        foreach ($newTags as $newTag) {
+            //Validation --> newTag must be string
+            $newTagValidated = trim(htmlspecialchars($newTag));
+            $tagExist = $tagManager->selectTagFromName($newTagValidated);
+            //Validation --> tag must exist and ids must be numerics
+            if ($tagExist && is_numeric($idMenu['id']) && is_numeric($tagExist['id'])) {
+                $menuManager->insertTagInMenu($idMenu['id'], $tagExist['id']);
+            }
+        }
+    }
+
+    /**
+     * Modifying tags linked in menu
+     */
+    public function specificUpdate(array $newMenu, array $oldMenu): void
+    {
+        $newTags = explode(' ', $newMenu['tags']);
+        //Compare old tags and new tags
+        if ($newMenu['tags'] != $oldMenu['tags']) {
+            $oldTags = explode(' ', $oldMenu['tags']);
+            //Adding tags if a new tag is found
+            foreach ($newTags as $newTag) {
+                if (!in_array($newTag, $oldTags)) {
+                    $this->findAndInsertion($newTag, $newMenu);
+                }
+            }
+            //Deletind tags if there are not found
+            foreach ($oldTags as $oldTag) {
+                if (!in_array($oldTag, $newTags)) {
+                    $this->findAndDelete($oldTag, $newMenu);
+                }
+            }
+        }
+    }
+
+    /**
+     * If tag is found and verified, can be added to the menu modified
+     */
+    public function findAndInsertion(string $newTag, array $newMenu): void
+    {
+        $tagManager = new TagManager();
+        $menuManager = new MenuManager();
+        //Validation --> newTag must be string
+        $newTagValidated = trim(htmlspecialchars($newTag));
+        $tagExist = $tagManager->selectTagFromName($newTagValidated);
+        //Validation --> tag must exist and ids must be numerics
+        if ($tagExist && is_numeric($newMenu['id']) && is_numeric($tagExist['id'])) {
+            $menuManager->insertTagInMenu($newMenu['id'], $tagExist['id']);
+        }
+    }
+
+    /**
+     * If tag is found and verified, can be deleted to the menu modified
+     */
+    public function findAndDelete(string $oldTag, array $newMenu): void
+    {
+        $tagManager = new TagManager();
+        $menuManager = new MenuManager();
+        //Validation --> newTag must be string
+        $oldTagValidated = trim(htmlspecialchars($oldTag));
+        $tagExist = $tagManager->selectTagFromName($oldTagValidated);
+        //Validation --> tag must exist and ids must be numerics
+        if ($tagExist && is_numeric($newMenu['id']) && is_numeric($tagExist['id'])) {
+            $menuManager->deleteTagInMenu($newMenu['id'], $tagExist['id']);
         }
     }
 }

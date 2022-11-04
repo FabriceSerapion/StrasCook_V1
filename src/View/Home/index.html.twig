@@ -1,3 +1,5 @@
+
+
 {% extends 'layout.html.twig' %}
 
 {% block stylesheet %}
@@ -11,12 +13,12 @@
 
 	<div id="form-line">
 		<div class="container">
-			<form action="" method="post">
+			<form action="/booking?adress={{ adress }}&date={{ date }}&hour={{ hour }}&benefit={{ benefit }}" method="GET">
 				<div class="row">
 					<div class="col-6 col-xl-3">
-						<label for="adress">RÉSERVÉ À
-						</label><br/>
-						<input type="text" id="adress" name="adress" placeholder="Adresse, Code postal, ville..." required pattern="([0-9]*) ?([a-zA-Z,\. ]*) ?([0-9]{5}) ?([a-zA-Z]*)">
+						<label for="adress">RÉSERVÉ À </label><br/>
+						<input type="text" value="{{ adress }}" id="adress" name="adress" placeholder="Adresse, Code postal, ville..."
+						required pattern="([0-9]*) ?([a-zA-Z,\. ]*) ?([0-9]{5}) ?([a-zA-Z]*)">
 						<p>
 							{% if errors['adress1'] %}
 								{{errors['adress1']}}
@@ -25,7 +27,7 @@
 					</div>
 					<div class="col-6 col-xl-2">
 						<label for="date">LE</label><br/>
-						<input type="date" id="date" name="date" placeholder="Date" required>
+						<input type="date" value="{{ date }}" id="date" name="date" placeholder="Date" required>
 						<p>
 							{% if errors['date1'] %}
 								{{errors['date1']}}
@@ -34,7 +36,7 @@
 					</div>
 					<div class="col-6 col-xl-2">
 						<label for="hour">À</label><br/>
-						<input type="time" id="hour" name="hour" placeholder="Heure" required>
+						<input type="time" value="{{ hour }}" id="hour" name="hour" placeholder="Heure" required>
 						<p>
 							{% if errors['hour1'] %}
 								{{errors['hour1']}}
@@ -43,11 +45,11 @@
 					</div>
 					<div class="col-6 col-xl-3">
 						<label for="benefit">Type de prestation</label><br/>
-						<select id="benefit" name="benefit">
+						<select id="benefit" name="benefit" value="{{ benefit }}">
 							<option value="">--Faites votre choix--</option>
 							<option value="dinner">Dîner</option>
-							<option value="lesson">Cour de cuisine</option>
-							<option value="gift">Offrir un menu ou cours</option>
+							{# <option value="lesson">Cour de cuisine</option>
+							<option value="gift">Offrir un menu ou cours</option> #}
 						</select>
 						<p>
 							{% if errors['benefit1'] %}
@@ -62,6 +64,7 @@
 			</form>
 		</div>
 	</div>
+
 {% endblock %}
 
 {% block container_greet %}

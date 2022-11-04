@@ -25,19 +25,25 @@ class MenusController extends AbstractController
     }
 
     /**
-     * Show informations for a specific menu
+     * Show informations --> menus with their tags linked, search by tag
      */
-
-    // TODO pop up javascript in twig in order to show one menu
-    public function showOneMenu(int $id): string
+    public function showMenus(string $tag): string
     {
         $menuManager = new MenuManager();
         $tagManager = new TagManager();
-        // TODO validation for id selected by user
-        $menu = $menuManager->selectOneById($id);
-        $tagsFromMenu = $tagManager->selectAllTagsFromMenu($menu[0]);
-        array_push($menu, $tagsFromMenu);
 
-        return $this->twig->render('Menu/show.html.twig', ['menu' => $menu]);
+        //Validation --> tag must be string
+        $tagValidated = trim(htmlspecialchars($tag));
+        $menus = $menuManager->selectAllFromTag($tagValidated);
+
+        foreach ($menus as $idx => $menu) {
+            $tagsFromMenu = $tagManager->selectAllTagsFromMenu($menu['id']);
+            $menus[$idx]["tags"] = $tagsFromMenu;
+        }
+
+        $data = ['menus' => $menus];
+        $data ['tag'] = $tag;
+
+        return $this->twig->render('Pages/menus.html.twig', $data);
     }
 }
