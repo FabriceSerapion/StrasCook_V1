@@ -1,7 +1,13 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
-	<h1>Ajout de menu</h1>
-	{% include 'Item/_formMenu.html.twig' %}
-	<a href="/admin">Back</a>
+	{% if notAdmin %}
+		<h1>Ajout d'une note</h1>
+		{% include 'Item/_formMenu.html.twig' %}
+		<a href="/userConnected">Back</a>
+	{% else %}
+		<h1>Ajout de menu</h1>
+		{% include 'Item/_formMenu.html.twig' %}
+		<a href="/admin">Back</a>
+	{% endif %}
 {% endblock %}

@@ -78,6 +78,24 @@ class TagManager extends AbstractManager
         $statement->execute();
     }
 
+    public function insertTagInMenu(int $idMenu, int $idTagExist): void
+    {
+        $statement = $this->pdo->prepare("INSERT INTO menu_tag 
+        (`id_menu`, `id_tag`) VALUES (:id_menu, :id_tag)");
+        $statement->bindValue('id_menu', $idMenu, PDO::PARAM_INT);
+        $statement->bindValue('id_tag', $idTagExist, PDO::PARAM_INT);
+        $statement->execute();
+    }
+
+    public function deleteTagInMenu(int $idMenu, int $idTagExist): void
+    {
+        $statement = $this->pdo->prepare("DELETE FROM menu_tag 
+        WHERE id_menu = :id_menu AND id_tag = :id_tag");
+        $statement->bindValue('id_menu', $idMenu, PDO::PARAM_INT);
+        $statement->bindValue('id_tag', $idTagExist, PDO::PARAM_INT);
+        $statement->execute();
+    }
+
     /**
      * Validation method specific for this item
      */

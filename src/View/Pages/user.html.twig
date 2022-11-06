@@ -3,4 +3,35 @@
 {% block content %}
   <h1>Espace Particulier</h1>
   <p>Retrouvez votre historique de commandes et laissez nous votre avis sur nos menus !</p>
+
+  {% for booking in bookings %}
+    <li>{{booking.date_booking}}</li>
+    <li>{{booking.adress_booking}}</li>
+    <li>{{booking.firstname_cook}}</li>
+    <li>{{booking.name_menu}}</li>
+    <li>{{booking.quantity_prestation}}</li>
+    <li>{{booking.is_lesson}}</li>
+    <li>{{booking.price_prestation}} €</li>
+  {% endfor %}
+
+  <p>Tous vos menus déjà commandés notés</p>
+
+  {% for note in notes %}
+    {% if note.user_note != '' %}
+    <li>Nom du menu : {{note.name_menu}}</li>
+    <li>Note globale du menu : {{note.note_menu}}</li>
+    <li>Note de l'utilisateur : {{note.user_note}}</li>
+    <a href="/note/edit?id={{ note.id }}">Modifier la note</a>
+    {% endif %}
+	{% endfor %}
+
+  <p>Tous vos menus déjà commandés non notés</p>
+
+  {% for note in notes %}
+    {% if note.user_note is null or note.user_note is empty %}
+    <li>{{note.name_menu}}</li>
+    <li>{{note.note_menu}}</li>
+    <a href="/note/add?id={{ note.id }}">Ajouter une note !</a>
+    {% endif %}
+	{% endfor %}
 {% endblock %}
