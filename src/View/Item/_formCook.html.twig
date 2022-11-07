@@ -1,17 +1,27 @@
 {% for error in errors %}
-{{error}}
+	{{error}}
 {% endfor %}
 
 <form method="post">
 	<input type="hidden" value="{{ cook.id }}" name="id">
-	<label for="lastname_cook">Nom du cuisinier</label>
-	<input type="text" value="{{ cook.lastname_cook }}" name="lastname_cook" id="lastname_cook">
-	<label for="firstname_cook">Prénom du cuisinier</label>
-	<input type="text" value="{{ cook.firstname_cook }}" name="firstname_cook" id="firstname_cook">
-	<label for="available_cook">Disponibilité du cuisinier</label>
-	<input type="text" value="{{ cook.begin_cook }}" name="begin_cook" id="begin_cook">
-	<input type="text" value="{{ cook.end_cook }}" name="end_cook" id="end_cook">
-	<label for="description_cook">Description du cuisinier</label>
-	<textarea for="description_cook" id="description_cook" name="description_cook">{{ cook.description_cook }}</textarea>
-	<button>Submit</button>
+	<div class="form-group my-4">
+		<label for="lastname_cook">Nom du cuisinier</label>
+		<input class="form-control" type="text" value="{{ cook.lastname_cook }}" name="lastname_cook" id="lastname_cook">
+	</div>
+	<div class="form-group my-4">
+		<label for="firstname_cook">Prénom du cuisinier</label>
+		<input class="form-control" type="text" value="{{ cook.firstname_cook }}" name="firstname_cook" id="firstname_cook">
+	</div>
+	<div class="form-group my-4">
+		<label for="available_cook">Disponibilité du cuisinier</label>
+		<input class="form-control" type="text" value="{{ cook.begin_cook }}" name="begin_cook" id="begin_cook">
+		<input class="form-control mt-2" type="text" value="{{ cook.end_cook }}" name="end_cook" id="end_cook">
+	</div>
+	<div class="form-group my-4">
+		<label for="description_cook">Description du cuisinier</label>
+		<textarea class="form-control" for="description_cook" id="description_cook" name="description_cook">{{ cook.description_cook }}</textarea>
+	</div>
+	<div class="d-flex justify-content-center">
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</div>
 </form>
