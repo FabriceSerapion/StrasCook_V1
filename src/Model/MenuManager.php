@@ -12,21 +12,6 @@ class MenuManager extends AbstractManager
     public const PATH = 'Menu.html.twig';
 
     /**
-     * Get all notes for one menu from database by ID.
-     */
-    // public function selectAllNotes(int $user_id): array|false
-    // {
-    //     $statement = $this->pdo->prepare(
-    //         "SELECT menu.note_menu, menu.name_menu, menu_note.user_note, menu_note.id_menu FROM " . self::TABLE . "
-    //     INNER JOIN menu_note ON menu.id = menu_note.id_menu
-    //     WHERE menu_note.user_id=:user_id"
-    //     );
-    //     $statement->bindValue('user_id', $user_id, \PDO::PARAM_INT);
-    //     $statement->execute();
-    //     return $statement->fetchAll();
-    // }
-
-    /**
      * Get all menus from database search by tag.
      */
     public function selectAllFromTag(string $tag): array|false
@@ -100,24 +85,6 @@ class MenuManager extends AbstractManager
         return (int)$this->pdo->lastInsertId();
     }
 
-    public function insertTagInMenu(int $idMenu, int $idTagExist): void
-    {
-        $statement = $this->pdo->prepare("INSERT INTO " . self::TABLEJOIN .
-        " (`id_menu`, `id_tag`) VALUES (:id_menu, :id_tag)");
-        $statement->bindValue('id_menu', $idMenu, PDO::PARAM_INT);
-        $statement->bindValue('id_tag', $idTagExist, PDO::PARAM_INT);
-        $statement->execute();
-    }
-
-    public function deleteTagInMenu(int $idMenu, int $idTagExist): void
-    {
-        $statement = $this->pdo->prepare("DELETE FROM menu_tag 
-        WHERE id_menu = :id_menu AND id_tag = :id_tag");
-        $statement->bindValue('id_menu', $idMenu, PDO::PARAM_INT);
-        $statement->bindValue('id_tag', $idTagExist, PDO::PARAM_INT);
-        $statement->execute();
-    }
-
     /**
      * Update menu in database
      */
@@ -142,6 +109,16 @@ class MenuManager extends AbstractManager
         $statement->bindValue('descr_menu_dessert', $newMenu['descr_menu_dessert'], PDO::PARAM_STR);
         $statement->bindValue('descr_menu_cheese', $newMenu['descr_menu_cheese'], PDO::PARAM_STR);
         $statement->bindValue('descr_menu_cuteness', $newMenu['descr_menu_cuteness'], PDO::PARAM_STR);
+
+        return $statement->execute();
+    }
+
+    public function updateNoteMenu(float $noteMenu, int $id): bool
+    {
+        $statement = $this->pdo->prepare("UPDATE " . self::TABLE . " SET
+        `note_menu` = :note_menu WHERE id=:id");
+        $statement->bindValue('note_menu', $noteMenu, PDO::PARAM_STR);
+        $statement->bindValue('id', $id, PDO::PARAM_INT);
 
         return $statement->execute();
     }

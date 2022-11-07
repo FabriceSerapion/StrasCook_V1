@@ -14,13 +14,16 @@ class BookingManager extends AbstractManager
     /**
      * Get all row from database.
      */
-    public function selectAll(int $limit = 0, string $orderBy = '', string $direction = 'ASC'): array
+    public function selectAll(int $limit = 0, string $orderBy = '', string $direction = 'ASC', int $idUser = 0): array
     {
         $query = 'SELECT booking.date_booking, booking.adress_booking, booking.price_prestation, menu.name_menu, 
         booking_menu.quantity_prestation, booking_menu.is_lesson, cook.firstname_cook FROM booking 
         INNER JOIN cook ON booking.id_cook = cook.id
-        INNER JOIN booking_menu ON booking.id = booking_menu.id_booking
-        INNER JOIN menu ON booking_menu.id_menu = menu.id';
+        LEFT JOIN booking_menu ON booking.id = booking_menu.id_booking
+        LEFT JOIN menu ON booking_menu.id_menu = menu.id';
+        if ($idUser > 0) {
+            $query .= ' WHERE booking.id_user = ' . $idUser;
+        }
         if ($orderBy) {
             $query .= ' ORDER BY ' . $orderBy . ' ' . $direction;
         }
