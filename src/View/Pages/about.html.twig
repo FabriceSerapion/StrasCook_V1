@@ -1,20 +1,58 @@
 {% extends 'layout.html.twig' %}
 
+{% block stylesheet %}<link rel="stylesheet" href="/assets/css/about.css">
+{% endblock %}
+
 {% block content %}
-    <h1>À propos de StrasCook</h1>
-    <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis a tellus accumsan, ultricies magna nec, volutpat dolor.
-        Nunc mollis nisl pharetra magna blandit posuere. Duis cursus luctus congue. Aenean blandit non ante sed varius.
-        Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
-        Duis facilisis tellus vitae enim sodales vehicula. Duis pharetra rutrum diam.
-        Quisque id aliquet tortor, non dignissim nunc. Maecenas elit neque, viverra id porta in, feugiat sit amet nisl. 
-        Curabitur tincidunt velit ut libero posuere ultricies.
-        Ut fringilla, dolor condimentum pulvinar finibus, lacus enim tempus nulla, quis fermentum ante sem nec turpis.
-        Donec vehicula arcu nec velit finibus laoreet. Nulla in leo euismod, euismod turpis nec, aliquet odio.
-        Proin eu iaculis nunc. Suspendisse diam velit, venenatis ac dolor nec, efficitur scelerisque tortor.
-        Phasellus sed lectus tortor. Duis congue tempor velit, sed interdum ante vestibulum a.
-        Suspendisse faucibus velit vel enim commodo, ut rhoncus diam consectetur. Nunc ac ullamcorper metus.
-        Praesent luctus sagittis lacus, a mollis tortor commodo id. Vestibulum dictum at erat sed luctus. 
-        Mauris non fringilla lorem. Nunc suscipit orci quis quam euismod, non fringilla enim vehicula.
-    </p>
+	<section class="top-cover d-flex w-100 h-50 flex-column justify-content-center align-items-center"></section>
+	<div class="box">
+		<div class="container container-presentation">
+			<h1>A propos du chef</h1>
+			<span class="extract">Passionné et professionnel, notre cuisinier se différencie par sa <strong>touche moderne</strong> qu'il apporte aux plats de la gastronomie française. Grâce à des années d'expérience et du savoir-faire, il a la compétence pour réaliser des <strong>présentations uniques </strong>de vos mets préférés avec <strong>des produits issus de petits producteurs locaux </strong>pour créer des repas sains qui raviront les yeux et les papilles. Découvrirez sa cuisine de chef à domicile, à bientôt !</span>
+		</div>
+		<div class="container container-presentation">
+			<h1>Philosophie</h1>
+			<span class="extract">Notre chef à domicile, vous propose tout un éventail de
+				<strong>goûts et de saveurs</strong>, pour vous créer un
+				<strong>moment unique et inoubliable</strong>
+				pour vous et vos invités à l’image de vos envies. L'<strong>ambiance d'un restaurant et le confort d'une maison</strong>, voilà la philosophie de notre activité.</span>
+			<span>La cuisine à domicile est un métier bien à part. Il faut aimer les gens, aller à leur rencontre, apprivoiser leur espace tout en sachant se faire discret et avoir envie de leur faire plaisir.</span>
+		</div>
+        <div class="global-box">
+            <div class="col-md-12">
+                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static">
+                        <h1 class="mb-0">Savoir-Faire</h1>
+                        <p>Nous sélectionnons les meilleurs produits locaux en provenance des terroirs d’origine en fonction de leur saisonnalité, pour vous garantir une qualité constante et une fraîcheur optimale. Notre objectif est de vous apporter au quotidien des recettes créatives et raffinées, aux couleurs chatoyantes, pour ravir le plaisir des yeux avant celui des papilles.</p>
+                    </div>
+                    <div class="col-auto d-none d-lg-block">
+                        <img class="bd-placeholder-img" width="500" height="500" src='assets/images/savoir-faire.jpg'/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col-auto d-none d-lg-block">
+                        <img class="bd-placeholder-img" width="500" height="500" src='assets/images/qualité.jpg'/>
+                    </div>
+                    <div class="col p-4 d-flex flex-column position-static">
+                        <h1 class="mb-0">Exigence de la qualité</h1>
+                        <p>Dans l’exercice de son activité, notre chef à domicile réinvente et renouvelle ses menus pour mariner le beau et le bon. Tout doit être maîtrisé avec la plus grande précision, la qualité, plus qu’une philosophie, est pour notre Chef une exigence de chaque instant et une promesse de qualité pour vos évènements.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static">
+                        <h1 class="mb-0">Un service complet</h1>
+                        <p>Notre chef intervient sur le lieu de votre choix, quelle que soit la nature de votre événement : anniversaire, congrès, séminaire, cocktail... Nous vous proposons une formule adaptée à votre besoin sous forme de prestation complète chez vous, ou dans le lieu de votre choix.
+                        </p>
+                    </div>
+                    <div class="col-auto d-none d-lg-block">
+                        <img class="bd-placeholder-img" width="500" height="500" src='assets/images/service.jpg'/>
+                    </div>
+                </div>
+		</div>
+	</div>
 {% endblock %}
