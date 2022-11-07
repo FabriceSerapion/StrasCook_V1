@@ -5,13 +5,13 @@
   <p>Retrouvez votre historique de commandes et laissez nous votre avis sur nos menus !</p>
 
   {% for booking in bookings %}
-    <li>{{booking.date_booking}}</li>
-    <li>{{booking.adress_booking}}</li>
-    <li>{{booking.firstname_cook}}</li>
-    <li>{{booking.name_menu}}</li>
-    <li>{{booking.quantity_prestation}}</li>
-    <li>{{booking.is_lesson}}</li>
-    <li>{{booking.price_prestation}} €</li>
+    <li>Date : {{booking.date_booking}}</li>
+    <li>Adresse : {{booking.adress_booking}}</li>
+    <li>Nom du cuisinier : {{booking.firstname_cook}}</li>
+    <li>Nom du menu : {{booking.name_menu}}</li>
+    <li>Quantité de menu selectionné : {{booking.quantity_prestation}}</li>
+    <li>Prix total : {{booking.price_prestation}} €</li>
+    <br>
   {% endfor %}
 
   <p>Tous vos menus déjà commandés notés</p>

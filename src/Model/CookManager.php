@@ -11,6 +11,19 @@ class CookManager extends AbstractManager
     public const PATH = 'Cook.html.twig';
 
     /**
+     * Get all row from database.
+     */
+    public function selectAnId(int $hour, string $orderBy = '', string $direction = 'ASC'): array
+    {
+        $query = 'select id from cook where ' . $hour . ' > begin_cook and ' . $hour . ' < end_cook LIMIT 1';
+        if ($orderBy) {
+            $query .= ' ORDER BY ' . $orderBy . ' ' . $direction;
+        }
+
+        return $this->pdo->query($query)->fetch();
+    }
+
+    /**
      * Insert new cook in database
      */
     public function insert(array $cook): int
