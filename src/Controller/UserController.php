@@ -11,30 +11,36 @@ final class UserController extends AbstractController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // TODO validation (code injection, empty values, string patterns, etc.)
-            // TODO feedback to the user is something wrong
-            // TODO create user
-            $user = new UserManager();
-            $user->insert([
-                'username' => $_POST['username'],
-                'password' => password_hash($_POST['password'], PASSWORD_DEFAULT)
-            ]);
+            if (!empty($_POST['username']) && !empty($_POST['password'])) {
+                $user = new UserManager();
+                $user->insert([
+                    'username' => $_POST['username'],
+                    'password' => password_hash($_POST['password'], PASSWORD_DEFAULT)
+                ]);
+                $user = $user->selectOneByUsername($_POST['username']);
 
-            // TODO redirect
-            \header('Location: /');
+                $_SESSION['authed'] = true;
+                $_SESSION['username'] = $_POST['username'];
+                $data = ['user' => $user];
+                return $this->twig->render('Home/index.html.twig', $data);
+            } else {
+                session_destroy();
+                $data = ['error' => "Une erreur est survenue"];
+                return $this->twig->render('Auth/signup.html.twig', $data);
+            }
         }
         return $this->twig->render('Auth/signup.html.twig');
     }
 
     public function login(): string
     {
-        // TODO get sent username and password from form
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // TODO validation (code injection, empty values, string patterns, etc.)
             $user = new UserManager();
             $user = $user->selectOneByUsername($_POST['username']);
             if (!empty($user)) {
                 //TODO modify the password verification to be stronger
-                if ($_POST['password'] === $user["password"]) {
+                if (password_verify($_POST['password'], $user["password"])) {
                     $_SESSION['authed'] = true;
                     $_SESSION['username'] = $user["username"];
                     $data = ['user' => $user];
@@ -56,7 +62,7 @@ final class UserController extends AbstractController
         }
         return $this->twig->render('Auth/login.html.twig');
     }
-    //TODO finish to implement logout logique
+
     public function logout(): void
     {
         session_destroy();

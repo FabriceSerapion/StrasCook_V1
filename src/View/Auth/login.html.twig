@@ -16,11 +16,10 @@
 			<p>Si vous n'avez pas de compte, veuillez d'abord en créer un
 				<a href="/signup">ici</a>
 			</p>
+			{% if error %}
+				<p>
+					{{error}}
+				</p>
+			{% endif %}
 		</div>
-
-		{% if error %}
-			<p>
-				{{error}}
-			</p>
-		{% endif %}
 	{% endblock %}

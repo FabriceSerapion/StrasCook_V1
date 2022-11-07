@@ -1,5 +1,3 @@
-
-
 {% extends 'layout.html.twig' %}
 
 {% block stylesheet %}
@@ -16,9 +14,9 @@
 			<form action="/booking?adress={{ adress }}&date={{ date }}&hour={{ hour }}&benefit={{ benefit }}" method="GET">
 				<div class="row">
 					<div class="col-6 col-xl-3">
-						<label for="adress">RÉSERVÉ À </label><br/>
-						<input type="text" value="{{ adress }}" id="adress" name="adress" placeholder="Adresse, Code postal, ville..."
-						required pattern="([0-9]*) ?([a-zA-Z,\. ]*) ?([0-9]{5}) ?([a-zA-Z]*)">
+						<label for="adress">RÉSERVÉ À
+						</label><br/>
+						<input type="text" value="{{ adress }}" id="adress" name="adress" placeholder="Adresse, Code postal, ville..." required pattern="([0-9]*) ?([a-zA-Z,\. ]*) ?([0-9]{5}) ?([a-zA-Z]*)">
 						<p>
 							{% if errors['adress1'] %}
 								{{errors['adress1']}}
@@ -49,7 +47,7 @@
 							<option value="">--Faites votre choix--</option>
 							<option value="dinner">Dîner</option>
 							{# <option value="lesson">Cour de cuisine</option>
-							<option value="gift">Offrir un menu ou cours</option> #}
+														<option value="gift">Offrir un menu ou cours</option> #}
 						</select>
 						<p>
 							{% if errors['benefit1'] %}
@@ -68,7 +66,7 @@
 {% endblock %}
 
 {% block container_greet %}
-	{% if user.username is defined %}
+	{% if user.username %}
 		<h1>Bonjour
 			{{user.username}}
 			!</h1>
