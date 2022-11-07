@@ -1,13 +1,17 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
-	{% if notAdmin %}
-		<h1>Ajout d'une note</h1>
-		{% include 'Item/_formMenu.html.twig' %}
-		<a href="/userConnected">Back</a>
-	{% else %}
-		<h1>Ajout de menu</h1>
-		{% include 'Item/_formMenu.html.twig' %}
-		<a href="/admin">Back</a>
-	{% endif %}
+  {% if notAdmin %}
+    <div class="d-flex flex-column align-items-center mt-4">
+      <h1>Ajout d'une note</h1>
+      <a href="/userConnected">Back</a>
+    </div>
+    {% include 'Item/_formMenu.html.twig' %}
+  {% else %}
+    <div class="d-flex flex-column align-items-center mt-4">
+      <h1>Ajout de menu</h1>
+      <a href="/admin">Back</a>
+    </div>
+    {% include 'Item/_formMenu.html.twig' %}
+  {% endif %}
 {% endblock %}
