@@ -18,15 +18,9 @@ final class UserManager extends AbstractManager
             "INSERT INTO " . self::TABLE . " (`username`, `password`) 
             VALUES (:username, :password)"
         );
-        // $statement->bindValue('username', $user['username'], PDO::PARAM_STR);
-        // $statement->bindValue('password', $user['password'], PDO::PARAM_STR);
-
-        // $statement->execute();
-        $statement->execute([
-            ':username' => $user['username'],
-            ':password' => $user['password']
-        ]);
-
+        $statement->bindValue('username', $user['username'], PDO::PARAM_STR);
+        $statement->bindValue('password', $user['password'], PDO::PARAM_STR);
+        $statement->execute();
         return (int)$this->pdo->lastInsertId();
     }
 
