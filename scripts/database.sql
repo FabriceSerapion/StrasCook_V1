@@ -96,7 +96,9 @@ CREATE TABLE booking
 	adress_booking VARCHAR(255) NOT NULL,
 	price_prestation double NOT NULL,
 	id_cook int NOT NULL,
-    FOREIGN KEY (id_cook) REFERENCES cook(id)
+    id_user int NOT NULL,
+    FOREIGN KEY (id_cook) REFERENCES cook(id),
+    FOREIGN KEY (id_user) REFERENCES user(id)
 );
 
 --
@@ -133,6 +135,18 @@ CREATE TABLE user (
   password varchar(255) NOT NULL,
   isAdmin bool DEFAULT false
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Structure de la table `menu_note`
+--
+
+CREATE TABLE menu_note (
+    id_menu int NOT NULL,
+	id_user int NOT NULL,
+    user_note int NOT NULL,
+    FOREIGN KEY (id_menu) REFERENCES menu(id),
+    FOREIGN KEY (id_user) REFERENCES user(id)
+);
 
 INSERT INTO menu (name_menu, price_menu, note_menu)
  VALUES

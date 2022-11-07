@@ -202,7 +202,7 @@ class AdminController extends AbstractController
             $tagExist = $tagManager->selectTagFromName($newTagValidated);
             //Validation --> tag must exist and ids must be numerics
             if ($tagExist && is_numeric($idMenu['id']) && is_numeric($tagExist['id'])) {
-                $menuManager->insertTagInMenu($idMenu['id'], $tagExist['id']);
+                $tagManager->insertTagInMenu($idMenu['id'], $tagExist['id']);
             }
         }
     }
@@ -237,13 +237,12 @@ class AdminController extends AbstractController
     public function findAndInsertion(string $newTag, array $newMenu): void
     {
         $tagManager = new TagManager();
-        $menuManager = new MenuManager();
         //Validation --> newTag must be string
         $newTagValidated = trim(htmlspecialchars($newTag));
         $tagExist = $tagManager->selectTagFromName($newTagValidated);
         //Validation --> tag must exist and ids must be numerics
         if ($tagExist && is_numeric($newMenu['id']) && is_numeric($tagExist['id'])) {
-            $menuManager->insertTagInMenu($newMenu['id'], $tagExist['id']);
+            $tagManager->insertTagInMenu($newMenu['id'], $tagExist['id']);
         }
     }
 
@@ -253,13 +252,12 @@ class AdminController extends AbstractController
     public function findAndDelete(string $oldTag, array $newMenu): void
     {
         $tagManager = new TagManager();
-        $menuManager = new MenuManager();
         //Validation --> newTag must be string
         $oldTagValidated = trim(htmlspecialchars($oldTag));
         $tagExist = $tagManager->selectTagFromName($oldTagValidated);
         //Validation --> tag must exist and ids must be numerics
         if ($tagExist && is_numeric($newMenu['id']) && is_numeric($tagExist['id'])) {
-            $menuManager->deleteTagInMenu($newMenu['id'], $tagExist['id']);
+            $tagManager->deleteTagInMenu($newMenu['id'], $tagExist['id']);
         }
     }
 }

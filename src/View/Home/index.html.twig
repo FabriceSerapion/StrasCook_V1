@@ -66,9 +66,9 @@
 {% endblock %}
 
 {% block container_greet %}
-	{% if user.username %}
+	{% if username is defined %}
 		<h1>Bonjour
-			{{user.username}}
+			{{username}}
 			!</h1>
 		<a href="/logout">logout</a>
 	{% else %}

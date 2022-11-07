@@ -12,6 +12,11 @@ class HomeController extends AbstractController
      */
     public function index(): string
     {
+        $data = array();
+        if (!empty($_SESSION) && $_SESSION['authed']) {
+            $username = $_SESSION["username"];
+            $data['username'] = $username;
+        }
         $menuManager = new MenuManager();
         $tagManager = new TagManager();
         $menus = $menuManager->selectAll(limit: 3);
@@ -19,7 +24,7 @@ class HomeController extends AbstractController
             $tagsFromMenu = $tagManager->selectAllTagsFromMenu($menu['id']);
             $menus[$idx]["tags"] = $tagsFromMenu;
         }
-        $data = ['menus' => $menus];
+        $data['menus'] = $menus;
 
         return $this->twig->render('Home/index.html.twig', $data);
     }
