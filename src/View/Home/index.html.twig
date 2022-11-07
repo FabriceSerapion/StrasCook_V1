@@ -181,14 +181,3 @@
 		</div>
 	</div>
 {% endblock %}
-
-{% block container_greet %}
-	{% if username is defined %}
-		<h1>Bonjour
-			{{username}}
-			!</h1>
-		<a href="/logout">logout</a>
-	{% else %}
-		<h1>Bonjour nouveau client !</h1>
-	{% endif %}
-{% endblock %}

@@ -44,14 +44,15 @@ drop table if exists booking;
 drop table if exists booking_menu;
 
 --
--- Structure de la table `tag`
+-- Structure de la table `user`
 --
 
-CREATE TABLE tag
-(
-    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    name_tag VARCHAR(25) NOT NULL
-);
+CREATE TABLE user (
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  username varchar(255) NOT NULL UNIQUE,
+  password varchar(255) NOT NULL,
+  isAdmin bool DEFAULT false
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Structure de la table `menu`
@@ -69,6 +70,16 @@ CREATE TABLE menu
     descr_menu_dessert text,
     descr_menu_cheese text,
     descr_menu_cuteness text
+);
+
+--
+-- Structure de la table `tag`
+--
+
+CREATE TABLE tag
+(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name_tag VARCHAR(25) NOT NULL
 );
 
 --
@@ -124,17 +135,6 @@ CREATE TABLE booking_menu (
     FOREIGN KEY (id_booking) REFERENCES booking(id),
     FOREIGN KEY (id_menu) REFERENCES menu(id)
 );
-
---
--- Structure de la table `user`
---
-
-CREATE TABLE user (
-  id int(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  username varchar(255) NOT NULL UNIQUE,
-  password varchar(255) NOT NULL,
-  isAdmin bool DEFAULT false
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Structure de la table `menu_note`
