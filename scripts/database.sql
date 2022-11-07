@@ -143,7 +143,7 @@ CREATE TABLE user (
 CREATE TABLE menu_note (
     id_menu int NOT NULL,
 	id_user int NOT NULL,
-    user_note int,
+    user_note int NOT NULL,
     FOREIGN KEY (id_menu) REFERENCES menu(id),
     FOREIGN KEY (id_user) REFERENCES user(id)
 );

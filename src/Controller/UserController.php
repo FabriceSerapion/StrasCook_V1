@@ -14,14 +14,12 @@ final class UserController extends AbstractController
      */
     public function indexUser(): ?string
     {
-        if (!empty($_SESSION) && $_SESSION['authed']) {
-            if ($_SESSION['isAdmin']) {
-                header('Location:/admin');
-                return null;
-            } else {
-                header('Location:/userConnected');
-                return null;
-            }
+        if (!empty($_SESSION) && $_SESSION['authed'] && $_SESSION['isAdmin']) {
+            header('Location:/admin');
+            return null;
+        } elseif (!empty($_SESSION) && $_SESSION['authed'] && !$_SESSION['isAdmin']) {
+            header('Location:/userconnected');
+            return null;
         } else {
             $this->login();
             return $this->twig->render('Auth/login.html.twig');
@@ -45,7 +43,6 @@ final class UserController extends AbstractController
             $noted = $noteManager->selectNoteFrmMenuAndUser($booked['id'], $_SESSION['user_id']);
             if (!empty($noted)) {
                 $allBooked[$idx]['user_note'] = $noted['user_note'];
-                // var_dump($booked); die();
             } else {
                 $allBooked[$idx]['user_note'] = '';
             }
@@ -69,7 +66,7 @@ final class UserController extends AbstractController
             $note = array_map('trim', $_POST);
 
             // if validation is ok, insert and redirection
-            //TODO VALIDATION
+            //TODO VALIDATION DONE FOR 08/11 IN THE MORNING
             // if (empty($errors)) {
                 $noteManager->modifyUserNote($note['user_note'], $idMenu, $_SESSION['user_id'], 1);
                 $this->modifyNoteGlobal($note['user_note'], $idMenu, 0);
@@ -97,7 +94,7 @@ final class UserController extends AbstractController
             $note = array_map('trim', $_POST);
 
             // if validation is ok, insert and redirection
-            //TODO VALIDATION
+            //TODO VALIDATION DONE FOR 08/11 IN THE MORNING
             // if (empty($errors)) {
                 $this->modifyNoteGlobal($note['user_note'], $idMenu, $noted['user_note']);
                 $noteManager->modifyUserNote($note['user_note'], $idMenu, $_SESSION['user_id'], 0);
@@ -120,7 +117,7 @@ final class UserController extends AbstractController
     {
         $noteManager = new NoteManager();
         $menuManager = new MenuManager();
-        //TODO VALIDATION
+        //TODO VALIDATION DONE FOR 08/11 IN THE MORNING
         $noteMenu = $noteManager->selectAllNotesFrmMenu($idMenu);
         $number = $noteMenu['noteCount'];
 
@@ -129,7 +126,7 @@ final class UserController extends AbstractController
         } else {
             $finalNote = ($noteMenu['noteUser'] - $oldNote + floatval($userNote)) / $number;
         }
-        //TODO VALIDATION
+        //TODO VALIDATION DONE FOR 08/11 IN THE MORNING
         $menuManager->updateNoteMenu($finalNote, $idMenu);
     }
 
@@ -171,7 +168,7 @@ final class UserController extends AbstractController
                         header('Location:/admin');
                         return '';
                     } else {
-                        header('Location:/userConnected');
+                        header('Location:/userconnected');
                         return '';
                     }
                 } else {

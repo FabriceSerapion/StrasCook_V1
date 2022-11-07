@@ -19,7 +19,7 @@ return [
     'menus/show' => ['MenusController', 'showMenus', ['tag']],
     'lessons' => ['LessonsController', 'lessons'],
     'gifts' => ['GiftsController', 'gifts'],
-    'userConnected' => ['UserController', 'userConnected'],
+    'userconnected' => ['UserController', 'userConnected'],
     'basket' => ['BasketController', 'basket'],
     'note/add' => ['UserController', 'add', ['id']],
     'note/edit' => ['UserController', 'edit', ['id']],
