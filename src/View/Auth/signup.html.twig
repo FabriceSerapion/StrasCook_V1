@@ -1,19 +1,24 @@
 {% extends 'layout.html.twig' %}
-
+{# TODO validation of user infos client side #}
 {% block content %}
 	<div class="h-100 d-flex justify-content-center align-items-center">
-		<form method="post" class="w-25 p-3">
+		<form action="/signup" method="POST" class="w-25 p-3">
 			<h1>Inscrivez vous</h1>
 			<div class="mb-3">
 				<label for="username" class="form-label">Nom d'utilisateur</label>
-				<input type="text" class="form-control" id="username" aria-describedby="usernameHelp">
-				<div id="usernameHelp" class="form-text">Nous ne partagerons pas votre nom d'utilisateur</div>
+				<input type="text" class="form-control" id="username" name="username" placeholder="your username">
 			</div>
 			<div class="mb-3">
 				<label for="password" class="form-label">Password</label>
-				<input type="password" class="form-control" id="password">
+				<input name="password" type="password" class="form-control" id="password" placeholder="Password">
 			</div>
-			<button type="submit" class="btn btn-primary">Submit</button>
+			<input class="w-100 btn btn-lg btn-primary" type="submit" value="login">
+			{% if error %}
+				<p>
+					{{error}}
+				</p>
+			{% endif %}
 		</form>
 	</div>
+
 {% endblock %}
