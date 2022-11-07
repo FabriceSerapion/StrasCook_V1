@@ -18,7 +18,24 @@
         Mauris non fringilla lorem. Nunc suscipit orci quis quam euismod, non fringilla enim vehicula.
     </p>
 
-    {{menu.name_menu}} {{menu.price_menu}}
-    <br>
-    {{adress}} {{date}} {{hour}} {{benefit}}
+    <form action="/bookingValidation?adress={{ adress }}&date={{ date }}&hour={{ hour }}&benefit={{ benefit }}&idMenu={{ menu.id }}" method="POST">
+        Nom du menu : {{menu.name_menu}} <br>
+        Prix du menu (par personne) {{menu.price_menu}} <br>
+        Choix du nombre de personne :
+        <select id="nbMenu" name="nbMenu" value="{{ nbMenu }}">
+            <option value="">Nombre de Personnes ({{menu.price_menu}} €/personne)</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        <br>
+        Adresse fournie : {{adress}} <br>
+        Date fournie : {{date}} <br>
+        Heure du repas : {{hour}} <br>
+        Type de service : {{benefit}} <br>
+        Prix de la prestation à vide : {{pricePrestation}}
+        <button class="btn btn-sm btn-outline-secondary">Valider la commande</button>
+    </form>
 {% endblock %}
