@@ -92,7 +92,7 @@ class BookingController extends AbstractController
 
             //INFORMATIONS FOR BOOK_MENU
             $booking['id_menu'] = $idMenu;
-            if ($benefit === 'Dîner') {
+            if ($benefit === 'dinner') {
                 $booking['is_lesson'] = false;
             }
 
