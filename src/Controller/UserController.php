@@ -168,8 +168,7 @@ final class UserController extends AbstractController
             if (!empty($user)) {
                 //TODO modify the password verification to be stronger
                 if (
-                    password_verify($_POST['password'], $user['password']) ||
-                    ($user['isAdmin'] && $_POST['password'] === $user['password'])
+                    password_verify($_POST['password'], $user['password'])
                 ) {
                     $_SESSION['authed'] = true;
                     $_SESSION['username'] = $user["username"];
