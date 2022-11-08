@@ -21,6 +21,12 @@ class MenusController extends AbstractController
         }
         $data = ['menus' => $menus];
 
+        //Verify if user is connected
+        if (!empty($_SESSION) && $_SESSION['authed']) {
+            $username = $_SESSION["username"];
+            $data['username'] = $username;
+        }
+
         return $this->twig->render('Pages/menus.html.twig', $data);
     }
 
@@ -42,7 +48,7 @@ class MenusController extends AbstractController
         }
 
         $data = ['menus' => $menus];
-        $data ['tag'] = $tag;
+        $data['tag'] = $tag;
 
         return $this->twig->render('Pages/menus.html.twig', $data);
     }

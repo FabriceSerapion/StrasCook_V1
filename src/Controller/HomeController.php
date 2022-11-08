@@ -12,6 +12,7 @@ class HomeController extends AbstractController
      */
     public function index(): string
     {
+        //Verify if user is connected
         $data = array();
         if (!empty($_SESSION) && $_SESSION['authed']) {
             $username = $_SESSION["username"];
