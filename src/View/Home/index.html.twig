@@ -13,39 +13,39 @@
 
 	<div id="form-line">
 		<div class="container">
-			<form action="/booking?adress={{ adress }}&date={{ date }}&hour={{ hour }}&benefit={{ benefit }}" method="GET">
+			<form class="pt-2" action="/booking?adress={{ adress }}&date={{ date }}&hour={{ hour }}&benefit={{ benefit }}" method="GET">
 				<div class="row">
-					<div class="col-6 col-xl-3">
-						<label for="adress">RÉSERVÉ À
+					<div class="col">
+						<label for="adress" class="text-white">RÉSERVÉ À
 						</label><br/>
-						<input type="text" value="{{ adress }}" id="adress" name="adress" placeholder="Adresse, Code postal, ville..." required pattern="([0-9]*) ?([a-zA-Z,\. ]*) ?([0-9]{5}) ?([a-zA-Z]*)">
+						<input type="text" class="form-control" value="{{ adress }}" id="adress" name="adress" placeholder="Adresse, Code postal, ville..." required pattern="([0-9]*) ?([a-zA-Z,'\. ]*) ?([0-9]{5}) ?([a-zA-Z]*)">
 						<p>
 							{% if errors['adress1'] %}
 								{{errors['adress1']}}
 							{% endif %}
 						</p>
 					</div>
-					<div class="col-6 col-xl-2">
-						<label for="date">LE</label><br/>
-						<input type="date" value="{{ date }}" id="date" name="date" placeholder="Date" required>
+					<div class="col">
+						<label for="date" class="text-white">LE</label><br/>
+						<input type="date" class="form-control" value="{{ date }}" id="date" name="date" placeholder="Date" required>
 						<p>
 							{% if errors['date1'] %}
 								{{errors['date1']}}
 							{% endif %}
 						</p>
 					</div>
-					<div class="col-6 col-xl-2">
-						<label for="hour">À</label><br/>
-						<input type="time" value="{{ hour }}" id="hour" name="hour" placeholder="Heure" required>
+					<div class="col">
+						<label for="hour" class="text-white">À</label><br/>
+						<input type="time" class="form-control" value="{{ hour }}" id="hour" name="hour" placeholder="Heure" required>
 						<p>
 							{% if errors['hour1'] %}
 								{{errors['hour1']}}
 							{% endif %}
 						</p>
 					</div>
-					<div class="col-6 col-xl-3">
-						<label for="benefit">Type de prestation</label><br/>
-						<select id="benefit" name="benefit" value="{{ benefit }}">
+					<div class="col">
+						<label for="benefit" class="text-white">Type de prestation</label><br/>
+						<select id="benefit" class="form-control" name="benefit" value="{{ benefit }}">
 							<option value="">--Faites votre choix--</option>
 							<option value="dinner">Dîner</option>
 						</select>
@@ -55,8 +55,8 @@
 							{% endif %}
 						</p>
 					</div>
-					<div type="button" class="col-12 col-xl-2">
-						<button type="submit">Validez votre choix</button>
+					<div type="button" class="col">
+						<button type="submit" class="btn btn-light mt-2">Validez votre choix</button>
 					</div>
 				</div>
 			</form>
@@ -88,14 +88,14 @@
 							<div class="card-body">
 								<div class="d-flex justify-content-between">
 									<h4 class="card-text">{{menu.name_menu}}</h4>
-									<div class="rating">
+									<div class="rating d-flex flex-row">
 										{% for i in range(1, 5) %}
 											{% if i <= menu.note_menu %}
-												<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewbox="0 0 16 16">
+												<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill m-1" viewbox="0 0 16 16">
 													<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
 												</svg>
 											{% elseif i < menu.note_menu + 1 and i > menu.note_menu %}
-												<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-half" viewbox="0 0 16 16">
+												<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-half m-1" viewbox="0 0 16 16">
 													<path d="M5.354 5.119 7.538.792A.516.516 0 0 1 8 .5c.183 0 .366.097.465.292l2.184 4.327 4.898.696A.537.537 0 0 1 16 6.32a.548.548 0 0 1-.17.445l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256a.52.52 0 0 1-.146.05c-.342.06-.668-.254-.6-.642l.83-4.73L.173 6.765a.55.55 0 0 1-.172-.403.58.58 0 0 1 .085-.302.513.513 0 0 1 .37-.245l4.898-.696zM8 12.027a.5.5 0 0 1 .232.056l3.686 1.894-.694-3.957a.565.565 0 0 1 .162-.505l2.907-2.77-4.052-.576a.525.525 0 0 1-.393-.288L8.001 2.223 8 2.226v9.8z"/>
 												</svg>
 											{% endif %}
