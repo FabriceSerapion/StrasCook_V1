@@ -46,4 +46,9 @@
         Prix de la prestation à vide : {{pricePrestation}}
         <button class="btn btn-sm btn-outline-secondary">Valider la commande</button>
     </form>
+
+    {% for error in errors %}
+	{{error}}
+{% endfor %}
+
 {% endblock %}

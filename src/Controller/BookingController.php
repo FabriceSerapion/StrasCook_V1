@@ -27,10 +27,18 @@ class BookingController extends AbstractController
         $data = ['menus' => $menus];
 
         //VALIDATION BY TWIG --> INFORMATIONS ASKED IN CERTAIN FORMS
-        $data ['adress'] = $adress;
-        $data ['date'] = $date;
-        $data ['hour'] = $hour;
-        $data ['benefit'] = $benefit;
+
+        //Verify if user is connected
+        if (!empty($_SESSION) && $_SESSION['authed']) {
+            $data ['adress'] = $adress;
+            $data ['date'] = $date;
+            $data ['hour'] = $hour;
+            $data ['benefit'] = $benefit;
+            $data['username'] = $_SESSION["username"];
+        } else {
+            header('Location:/');
+            return '';
+        }
 
         return $this->twig->render('Pages/menus.html.twig', $data);
     }
@@ -53,6 +61,7 @@ class BookingController extends AbstractController
             $data ['hour'] = $hour;
             $data ['benefit'] = $benefit;
             $data ['pricePrestation'] = $this->pricePrestation;
+            $data['username'] = $_SESSION["username"];
         }
         return $this->twig->render('Pages/summary.html.twig', $data);
     }
@@ -113,6 +122,13 @@ class BookingController extends AbstractController
             } else {
                 //Show errors
                 $data = [];
+                $data['adress'] = $adress;
+                $data['date'] = $date;
+                $data['hour'] = $hour;
+                $data['benefit'] = $benefit;
+                $data['pricePrestation'] = $this->pricePrestation;
+                $data['menu'] = $menu;
+                $data['username'] = $_SESSION["username"];
                 $data['errors'] = $errors;
                 return $this->twig->render('Pages/summary.html.twig', $data);
             }

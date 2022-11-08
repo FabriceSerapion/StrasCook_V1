@@ -6,7 +6,7 @@ use PDO;
 
 class BookingManager extends AbstractManager
 {
-    public const TABLE = 'BOOKING';
+    public const TABLE = 'booking';
     public const TABLEJOIN = 'booking_menu';
 
     public const PATH = 'Booking.html.twig';
@@ -145,14 +145,15 @@ class BookingManager extends AbstractManager
     public function validation(array $booking): array
     {
         $errors = array();
-        if (empty($booking['price_prestation'])) {
+        // var_dump($booking);die();
+        if (empty($booking['nbMenu']) || $booking['nbMenu'] == 0) {
             $errors[] = "Vous devez donner une quantité !";
         }
         if (empty($booking['id_menu'] || !is_numeric($booking['id_menu']))) {
             $errors[] = "Vous devez choisir un menu !";
         }
-        if (empty($booking['id_cook'] || !is_numeric($booking['id_cook']))) {
-            $errors[] = "Il n'y a pas de cuisinier disponible !";
+        if (!$booking['id_cook']) {
+            $errors[] = "Une erreur est survenue, il n'y'a pas de cuisinier disponible";
         }
         return $errors;
     }
