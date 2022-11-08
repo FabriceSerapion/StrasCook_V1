@@ -9,6 +9,12 @@ class AboutController extends AbstractController
      */
     public function about(): string
     {
-        return $this->twig->render('Pages/about.html.twig');
+        //Verify if user is connected
+        $data = array();
+        if (!empty($_SESSION) && $_SESSION['authed']) {
+            $username = $_SESSION["username"];
+            $data['username'] = $username;
+        }
+        return $this->twig->render('Pages/about.html.twig', $data);
     }
 }

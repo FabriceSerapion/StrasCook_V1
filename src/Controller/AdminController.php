@@ -44,6 +44,12 @@ class AdminController extends AbstractController
         $data['cooks'] = $cooks;
         $data['bookings'] = $bookings;
 
+        //Verify if user is connected
+        if (!empty($_SESSION) && $_SESSION['authed']) {
+            $username = $_SESSION["username"];
+            $data['username'] = $username;
+        }
+
         return $this->twig->render('Admin/admin.html.twig', $data);
     }
 
