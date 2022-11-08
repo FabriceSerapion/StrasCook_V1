@@ -61,6 +61,7 @@ class BookingController extends AbstractController
             $data ['hour'] = $hour;
             $data ['benefit'] = $benefit;
             $data ['pricePrestation'] = $this->pricePrestation;
+            $data['username'] = $_SESSION["username"];
         }
         return $this->twig->render('Pages/summary.html.twig', $data);
     }
@@ -89,11 +90,6 @@ class BookingController extends AbstractController
             $intHour = intval($hour);
             if (is_numeric($intHour)) {
                 $idCook = $cookManager->selectAnId(hour: $intHour);
-            }
-
-            if (!$idCook) {
-                $data['error'] = "Une erreur est survenue, il n'y'a pas de cuisinier disponible";
-                return $this->twig->render('Pages/summary.html.twig', $data);
             }
 
             //INFORMATIONS FOR BOOKING --> DATE + ADRESS + PRIX + IDCOOK
@@ -132,6 +128,7 @@ class BookingController extends AbstractController
                 $data['benefit'] = $benefit;
                 $data['pricePrestation'] = $this->pricePrestation;
                 $data['menu'] = $menu;
+                $data['username'] = $_SESSION["username"];
                 $data['errors'] = $errors;
                 return $this->twig->render('Pages/summary.html.twig', $data);
             }

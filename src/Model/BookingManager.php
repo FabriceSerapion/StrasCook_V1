@@ -152,8 +152,8 @@ class BookingManager extends AbstractManager
         if (empty($booking['id_menu'] || !is_numeric($booking['id_menu']))) {
             $errors[] = "Vous devez choisir un menu !";
         }
-        if (empty($booking['id_cook'] || !is_numeric($booking['id_cook']))) {
-            $errors[] = "Il n'y a pas de cuisinier disponible !";
+        if (!$booking['id_cook']) {
+            $errors[] = "Une erreur est survenue, il n'y'a pas de cuisinier disponible";
         }
         return $errors;
     }
