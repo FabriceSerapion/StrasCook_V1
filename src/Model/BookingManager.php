@@ -14,8 +14,13 @@ class BookingManager extends AbstractManager
     /**
      * Get all row from database.
      */
-    public function selectAll(int $limit = 0, string $orderBy = '', string $direction = 'ASC', int $idUser = 0): array
-    {
+    public function selectAll(
+        int $limit = 0,
+        string $orderBy = '',
+        string $direction = 'ASC',
+        int $idUser = 0,
+        string $bookingDate = ''
+    ): array {
         $query = 'SELECT booking.date_booking, booking.adress_booking, booking.price_prestation, menu.name_menu, 
         booking_menu.quantity_prestation, cook.firstname_cook FROM booking 
         INNER JOIN cook ON booking.id_cook = cook.id
@@ -23,6 +28,9 @@ class BookingManager extends AbstractManager
         LEFT JOIN menu ON booking_menu.id_menu = menu.id';
         if ($idUser > 0) {
             $query .= ' WHERE booking.id_user = ' . $idUser;
+        }
+        if ($bookingDate) {
+            $query .= ' WHERE booking.date_booking > "' . $bookingDate . '"';
         }
         if ($orderBy) {
             $query .= ' ORDER BY ' . $orderBy . ' ' . $direction;
@@ -92,7 +100,7 @@ class BookingManager extends AbstractManager
         return $statement->execute();
     }
 
-        /**
+    /**
      * Update adress booking in database
      */
     public function updateAdressBooking(array $booking): bool

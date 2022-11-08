@@ -33,15 +33,16 @@ class AdminController extends AbstractController
         $cookManager = new CookManager();
         $cooks = $cookManager->selectAll(orderBy: 'cook.firstname_cook');
 
-        //GET ALL BOOKS
+        //GET ALL FUTURE BOOKS
+        $date = date('Y-m-d');
         $bookManager = new BookingManager();
-        $bookings = $bookManager->selectAll(limit: 5, orderBy: 'booking.date_booking');
+        $bookings = $bookManager->selectAll(limit: 5, orderBy: 'booking.date_booking', bookingDate: $date);
 
         //PUSH DATAS IN TWIG
         $data = ['menus' => $menus];
-        $data ['tags'] = $tags;
-        $data ['cooks'] = $cooks;
-        $data ['bookings'] = $bookings;
+        $data['tags'] = $tags;
+        $data['cooks'] = $cooks;
+        $data['bookings'] = $bookings;
 
         return $this->twig->render('Admin/admin.html.twig', $data);
     }
