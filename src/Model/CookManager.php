@@ -13,9 +13,9 @@ class CookManager extends AbstractManager
     /**
      * Get all row from database.
      */
-    public function selectAnId(int $hour, string $orderBy = '', string $direction = 'ASC'): array
+    public function selectAnId(int $hour, string $orderBy = '', string $direction = 'ASC'): array|bool
     {
-        $query = 'select id from cook where ' . $hour . ' > begin_cook and ' . $hour . ' < end_cook LIMIT 1';
+        $query = 'select id from cook where ' . $hour . ' >= begin_cook and ' . $hour . ' <= end_cook LIMIT 1';
         if ($orderBy) {
             $query .= ' ORDER BY ' . $orderBy . ' ' . $direction;
         }
