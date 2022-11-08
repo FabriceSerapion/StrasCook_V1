@@ -1,64 +1,70 @@
-{% for error in errors %}
-	{{error}}
-{% endfor %}
-
-<form class="mx-5" method="post">
-  {% if notAdmin %}
-		<input type="hidden" value="{{ menu_note.id }}" name="id">
-    <div class="form-group col-md-5">
-      <label for="note_menu">Note du menu</label>
-      <input class="form-control" type="text" value="{{ menu_note.user_note }}" name="user_note" id="user_note">
-     </div>
-	{% else %}
-    <input type="hidden" value="{{ menu.id }}" name="id">
-
-    <div class="form-row d-flex justify-content-between my-4">
+{% block stylesheet %}
+	<link rel="stylesheet" href="/assets/css/error.css">
+{% endblock %}
+{% block content %}
+    {% for error in errors %}
+        <div class='error'>
+            {{error}}
+        </div>
+    {% endfor %}
+  <form class="mx-5" method="post">
+    {% if notAdmin %}
+      <input type="hidden" value="{{ menu_note.id }}" name="id">
       <div class="form-group col-md-5">
-        <label for="name_menu">Nom du menu</label>
-        <input class="form-control" type="text" value="{{ menu.name_menu }}" name="name_menu" id="name_menu">
+        <label for="note_menu">Note du menu</label>
+        <input class="form-control" type="text" value="{{ menu_note.user_note }}" name="user_note" id="user_note">
       </div>
-      <div class="form-group col-md-5">
-        <label for="price_menu">Prix du menu</label>
-        <input class="form-control" type="number" value="{{ menu.price_menu }}" name="price_menu" id="price_menu">
+    {% else %}
+      <input type="hidden" value="{{ menu.id }}" name="id">
+
+      <div class="form-row d-flex justify-content-between my-4">
+        <div class="form-group col-md-5">
+          <label for="name_menu">Nom du menu</label>
+          <input class="form-control" type="text" value="{{ menu.name_menu }}" name="name_menu" id="name_menu">
+        </div>
+        <div class="form-group col-md-5">
+          <label for="price_menu">Prix du menu</label>
+          <input class="form-control" type="number" value="{{ menu.price_menu }}" name="price_menu" id="price_menu">
+        </div>
       </div>
-    </div>
 
-    <div class="form-group my-4">
-      <label for="descr_menu_appetizer">Amuse bouche</label>
-      <textarea class="form-control" for="descr_menu_appetizer" id="descr_menu_appetizer" name="descr_menu_appetizer">{{ menu.descr_menu_appetizer }}</textarea>
-    </div>
+      <div class="form-group my-4">
+        <label for="descr_menu_appetizer">Amuse bouche</label>
+        <textarea class="form-control" for="descr_menu_appetizer" id="descr_menu_appetizer" name="descr_menu_appetizer">{{ menu.descr_menu_appetizer }}</textarea>
+      </div>
 
-    <div class="form-group my-4">
-      <label for="descr_menu_starter">Entrée</label>
-      <textarea class="form-control" for="descr_menu_starter" id="descr_menu_starter" name="descr_menu_starter">{{ menu.descr_menu_starter }}</textarea>
-    </div>
+      <div class="form-group my-4">
+        <label for="descr_menu_starter">Entrée</label>
+        <textarea class="form-control" for="descr_menu_starter" id="descr_menu_starter" name="descr_menu_starter">{{ menu.descr_menu_starter }}</textarea>
+      </div>
 
-    <div class="form-group my-4">
-      <label for="descr_menu_meal">Plat principal</label>
-      <textarea class="form-control" for="descr_menu_meal" id="descr_menu_meal" name="descr_menu_meal">{{ menu.descr_menu_meal }}</textarea>
-    </div>
+      <div class="form-group my-4">
+        <label for="descr_menu_meal">Plat principal</label>
+        <textarea class="form-control" for="descr_menu_meal" id="descr_menu_meal" name="descr_menu_meal">{{ menu.descr_menu_meal }}</textarea>
+      </div>
 
-    <div class="form-group my-4">
-      <label for="descr_menu_dessert">Dessert</label>
-      <textarea class="form-control" for="descr_menu_dessert" id="descr_menu_dessert" name="descr_menu_dessert">{{ menu.descr_menu_dessert }}</textarea>
-    </div>
+      <div class="form-group my-4">
+        <label for="descr_menu_dessert">Dessert</label>
+        <textarea class="form-control" for="descr_menu_dessert" id="descr_menu_dessert" name="descr_menu_dessert">{{ menu.descr_menu_dessert }}</textarea>
+      </div>
 
-    <div class="form-group my-4">
-      <label for="descr_menu_cheese">Fromage</label>
-      <textarea class="form-control" for="descr_menu_cheese" id="descr_menu_cheese" name="descr_menu_cheese">{{ menu.descr_menu_cheese }}</textarea>
-    </div>
+      <div class="form-group my-4">
+        <label for="descr_menu_cheese">Fromage</label>
+        <textarea class="form-control" for="descr_menu_cheese" id="descr_menu_cheese" name="descr_menu_cheese">{{ menu.descr_menu_cheese }}</textarea>
+      </div>
 
-    <div class="form-group my-4">
-      <label for="descr_menu_cuteness">Mignardise</label>
-      <textarea class="form-control" for="descr_menu_cuteness" id="descr_menu_cuteness" name="descr_menu_cuteness">{{ menu.descr_menu_cuteness }}</textarea>
-    </div>
+      <div class="form-group my-4">
+        <label for="descr_menu_cuteness">Mignardise</label>
+        <textarea class="form-control" for="descr_menu_cuteness" id="descr_menu_cuteness" name="descr_menu_cuteness">{{ menu.descr_menu_cuteness }}</textarea>
+      </div>
 
-    <div class="form-group my-4">
-      <label for="tags">Modification des tags</label>
-      <textarea class="form-control" for="tags" id="tags" name="tags">{{menu.tags}}</textarea>
+      <div class="form-group my-4">
+        <label for="tags">Modification des tags</label>
+        <textarea class="form-control" for="tags" id="tags" name="tags">{{menu.tags}}</textarea>
+      </div>
+    {% endif %}
+    <div class="d-flex justify-content-center">
+      <button type="submit" class="btn btn-primary">Submit</button>
     </div>
-  {% endif %}
-	<div class="d-flex justify-content-center">
-		<button type="submit" class="btn btn-primary">Submit</button>
-	</div>
-</form>
+  </form>
+{% endblock %}
