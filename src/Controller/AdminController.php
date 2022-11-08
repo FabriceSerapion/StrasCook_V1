@@ -114,7 +114,13 @@ class AdminController extends AbstractController
                 return $this->twig->render('Item/add' . $manager::PATH, $data);
             }
         }
-        return $this->twig->render('Item/add' . $manager::PATH);
+        //Verify if user is connected
+        $data = array();
+        if (!empty($_SESSION) && $_SESSION['authed']) {
+            $username = $_SESSION["username"];
+            $data['username'] = $username;
+        }
+        return $this->twig->render('Item/add' . $manager::PATH, $data);
     }
 
     /**
