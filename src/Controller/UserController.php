@@ -65,16 +65,19 @@ final class UserController extends AbstractController
             // clean $_POST data
             $note = array_map('trim', $_POST);
 
-            // if validation is ok, insert and redirection
-            //TODO VALIDATION DONE FOR 08/11 IN THE MORNING
-            // if (empty($errors)) {
+            //Validation for the item
+            $errors = $noteManager->validation($note);
+
+            if (empty($errors) && is_numeric($idMenu)) {
                 $noteManager->modifyUserNote($note['user_note'], $idMenu, $_SESSION['user_id'], 1);
                 $this->modifyNoteGlobal($note['user_note'], $idMenu, 0);
-                header('Location:/userConnected');
+                header('Location:/userconnected');
                 return null;
-            // } else {
-            //     return $this->twig->render('Item/add' . $noteManager::PATH);
-            // }
+            } else {
+                $data = ['notAdmin' => true];
+                $data['errors'] = $errors;
+                return $this->twig->render('Item/add' . $noteManager::PATH, $data);
+            }
         }
         return $this->twig->render('Item/add' . $noteManager::PATH, ['notAdmin' => true]);
     }
@@ -88,21 +91,23 @@ final class UserController extends AbstractController
 
         //Finding the correct item
         $noted = $noteManager->selectNoteFrmMenuAndUser($idMenu, $_SESSION['user_id']);
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // clean $_POST data
             $note = array_map('trim', $_POST);
 
-            // if validation is ok, insert and redirection
-            //TODO VALIDATION DONE FOR 08/11 IN THE MORNING
-            // if (empty($errors)) {
+            //Validation for the item
+            $errors = $noteManager->validation($note);
+
+            if (empty($errors)) {
                 $this->modifyNoteGlobal($note['user_note'], $idMenu, $noted['user_note']);
                 $noteManager->modifyUserNote($note['user_note'], $idMenu, $_SESSION['user_id'], 0);
-                header('Location:/userConnected');
+                header('Location:/userconnected');
                 return null;
-            // } else {
-            //     return $this->twig->render('Item/edit' . $noteManager::PATH);
-            // }
+            } else {
+                $data = ['notAdmin' => true];
+                $data['errors'] = $errors;
+                return $this->twig->render('Item/edit' . $noteManager::PATH, $data);
+            }
         }
         $data = array();
         $data['notAdmin'] = true;
@@ -145,8 +150,10 @@ final class UserController extends AbstractController
 
                 $_SESSION['authed'] = true;
                 $_SESSION['username'] = $_POST['username'];
-                $data = ['user' => $user];
-                return $this->twig->render('Home/index.html.twig', $data);
+                $_SESSION['user_id'] = $user["id"];
+                $_SESSION['isAdmin'] = $user["isAdmin"];
+                header('Location:/userconnected');
+                return '';
             } else {
                 session_destroy();
                 $data = ['error' => "Une erreur est survenue"];
@@ -164,7 +171,10 @@ final class UserController extends AbstractController
             $user = $user->selectOneByUsername($_POST['username']);
             if (!empty($user)) {
                 //TODO modify the password verification to be stronger
-                if (password_verify($_POST['password'], $user["password"])) {
+                if (
+                    password_verify($_POST['password'], $user['password']) ||
+                    ($user['isAdmin'] && $_POST['password'] === $user['password'])
+                ) {
                     $_SESSION['authed'] = true;
                     $_SESSION['username'] = $user["username"];
                     $_SESSION['isAdmin'] = $user["isAdmin"];

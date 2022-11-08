@@ -9,6 +9,8 @@
 		<p class="load text-center text-white">Vivez une expérience unique avec ce nouveau concept tendance qui est une alternative au restaurant</p>
 	</section>
 
+	{# form to allow client to make a booking #}
+
 	<div id="form-line">
 		<div class="container">
 			<form action="/booking?adress={{ adress }}&date={{ date }}&hour={{ hour }}&benefit={{ benefit }}" method="GET">
@@ -46,8 +48,6 @@
 						<select id="benefit" name="benefit" value="{{ benefit }}">
 							<option value="">--Faites votre choix--</option>
 							<option value="dinner">Dîner</option>
-							{# <option value="lesson">Cour de cuisine</option>
-														<option value="gift">Offrir un menu ou cours</option> #}
 						</select>
 						<p>
 							{% if errors['benefit1'] %}
@@ -63,19 +63,13 @@
 		</div>
 	</div>
 
-
+	{# display of three menus only for home page #}
 	<div class="album py-5 bg-light">
 		<div class="container">
 			<div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-3">
-
 				{% for menu in menus %}
-
 					<div class="col">
-						<div
-							class="card shadow-sm">
-							{#
-																<img src="{{menu.image}}">
-															#}
+						<div class="card shadow-sm">
 							<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: image-menu" preserveaspectratio="xMidYMid slice" focusable="false">
 								<title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Image menu</text>
 							</svg>
@@ -83,11 +77,11 @@
 								<div class="d-flex justify-content-between">
 									<h4 class="card-text">{{menu.name_menu}}</h4>
 									<div class="rating"><!--
-																					--><a href="#5" title="Give 5 stars">☆</a><!--
-																					--><a href="#4" title="Give 4 stars">☆</a><!--
-																					--><a href="#3" title="Give 3 stars">☆</a><!--
-																					--><a href="#2" title="Give 2 stars">☆</a><!--
-																					--><a href="#1" title="Give 1 star">☆</a>
+																														--><a href="#5" title="Give 5 stars">☆</a><!--
+																														--><a href="#4" title="Give 4 stars">☆</a><!--
+																														--><a href="#3" title="Give 3 stars">☆</a><!--
+																														--><a href="#2" title="Give 2 stars">☆</a><!--
+																														--><a href="#1" title="Give 1 star">☆</a>
 									</div>
 								</div>
 								<div class=" d-flex justify-content-start">
@@ -104,17 +98,9 @@
 								</div>
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="btn-group">
-										{% if adress %}
-											<form action="/bookingMenu?adress={{ adress }}&date={{ date }}&hour={{ hour }}&benefit={{ benefit }}&idMenu={{ menu.id }}" method="POST">
-												<input type="hidden" name="id" value="{{ menu.id }}">
-												<button class="btn btn-sm btn-outline-secondary">Ajouter au panier</button>
-											</form>
-											{# {% else %}
-																							<button type="button" class="btn btn-sm btn-outline-secondary">Ajouter au panier</button> #}
-										{% endif %}
 										<button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal_{{menu.id}}">Voir ce menu</button>
 
-										{# modal #}
+										{# modal for each menu displayed #}
 										<div class="modal fade" id="modal_{{menu.id}}" tabindex="-1" role="dialog" aria-labelledby="modal_{{menu.id}}Title" aria-hidden="true">
 											<div class="modal-dialog modal-dialog-centered" role="document">
 												<div class="modal-content">
@@ -168,7 +154,6 @@
 												</div>
 											</div>
 										</div>
-
 									</div>
 									<small class="text-muted ms-4">{{menu.price_menu}}
 										€/ personne</small>

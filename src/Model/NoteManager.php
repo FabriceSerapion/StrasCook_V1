@@ -14,7 +14,7 @@ class NoteManager extends AbstractManager
     public function selectAllMenuBooked(int $idUser): array|false
     {
         $statement = $this->pdo->prepare(
-            "select menu.note_menu, menu.name_menu, menu.id 
+            "select DISTINCT menu.note_menu, menu.name_menu, menu.id 
             from booking inner join booking_menu on booking.id = booking_menu.id_booking
             inner join menu on booking_menu.id_menu = menu.id where id_user =:id_user"
         );
@@ -85,5 +85,21 @@ class NoteManager extends AbstractManager
         $statement2->bindValue('id_user', $idUser, PDO::PARAM_INT);
         $statement2->bindValue('user_note', $userNote, PDO::PARAM_STR);
         return $statement2->execute();
+    }
+
+        /**
+     * Validation method specific for this item
+     */
+    public function validation(array $note): array
+    {
+        $errors = array();
+        // var_dump($note);die();
+        if (
+            empty($note['user_note'] || !is_numeric($note['user_note'])) ||
+            ($note['user_note'] > 5 || $note['user_note'] < 0)
+        ) {
+            $errors[] = "Vous devez mettre une note valide entre 0 et 5 compris !";
+        }
+        return $errors;
     }
 }
