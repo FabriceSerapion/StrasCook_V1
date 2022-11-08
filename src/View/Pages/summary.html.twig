@@ -1,6 +1,14 @@
 {% extends 'layout.html.twig' %}
 
+{% block stylesheet %}
+	<link rel="stylesheet" href="/assets/css/error.css">
+{% endblock %}
 {% block content %}
+  {% for error in errors %}
+    <div class='error'>
+      {{error}}
+    </div>
+  {% endfor %}
 	<div class="w-100 d-flex flex-column align-items-center">
 		<h1 class="m-5">Récapitulatif</h1>
 		<div
@@ -55,7 +63,6 @@
 						<div class="d-flex justify-content-between align-items-center">
 							<div class="btn-group">
 								<button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal_{{menu.id}}">Voir ce menu</button>
-
 								{# modal #}
 								<div class="modal fade" id="modal_{{menu.id}}" tabindex="-1" role="dialog" aria-labelledby="modal_{{menu.id}}Title" aria-hidden="true">
 									<div class="modal-dialog modal-dialog-centered" role="document">
