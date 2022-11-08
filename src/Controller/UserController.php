@@ -65,16 +65,19 @@ final class UserController extends AbstractController
             // clean $_POST data
             $note = array_map('trim', $_POST);
 
-            // if validation is ok, insert and redirection
-            //TODO VALIDATION DONE FOR 08/11 IN THE MORNING
-            // if (empty($errors)) {
-            $noteManager->modifyUserNote($note['user_note'], $idMenu, $_SESSION['user_id'], 1);
-            $this->modifyNoteGlobal($note['user_note'], $idMenu, 0);
-            header('Location:/userConnected');
-            return null;
-            // } else {
-            //     return $this->twig->render('Item/add' . $noteManager::PATH);
-            // }
+            //Validation for the item
+            $errors = $noteManager->validation($note);
+
+            if (empty($errors) && is_numeric($idMenu)) {
+                $noteManager->modifyUserNote($note['user_note'], $idMenu, $_SESSION['user_id'], 1);
+                $this->modifyNoteGlobal($note['user_note'], $idMenu, 0);
+                header('Location:/userconnected');
+                return null;
+            } else {
+                $data = ['notAdmin' => true];
+                $data['errors'] = $errors;
+                return $this->twig->render('Item/add' . $noteManager::PATH, $data);
+            }
         }
         return $this->twig->render('Item/add' . $noteManager::PATH, ['notAdmin' => true]);
     }
@@ -88,21 +91,23 @@ final class UserController extends AbstractController
 
         //Finding the correct item
         $noted = $noteManager->selectNoteFrmMenuAndUser($idMenu, $_SESSION['user_id']);
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // clean $_POST data
             $note = array_map('trim', $_POST);
 
-            // if validation is ok, insert and redirection
-            //TODO VALIDATION DONE FOR 08/11 IN THE MORNING
-            // if (empty($errors)) {
-            $this->modifyNoteGlobal($note['user_note'], $idMenu, $noted['user_note']);
-            $noteManager->modifyUserNote($note['user_note'], $idMenu, $_SESSION['user_id'], 0);
-            header('Location:/userConnected');
-            return null;
-            // } else {
-            //     return $this->twig->render('Item/edit' . $noteManager::PATH);
-            // }
+            //Validation for the item
+            $errors = $noteManager->validation($note);
+
+            if (empty($errors)) {
+                $this->modifyNoteGlobal($note['user_note'], $idMenu, $noted['user_note']);
+                $noteManager->modifyUserNote($note['user_note'], $idMenu, $_SESSION['user_id'], 0);
+                header('Location:/userconnected');
+                return null;
+            } else {
+                $data = ['notAdmin' => true];
+                $data['errors'] = $errors;
+                return $this->twig->render('Item/edit' . $noteManager::PATH, $data);
+            }
         }
         $data = array();
         $data['notAdmin'] = true;
@@ -147,6 +152,7 @@ final class UserController extends AbstractController
                 $_SESSION['username'] = $_POST['username'];
                 $_SESSION['user_id'] = $user["id"];
                 $_SESSION['isAdmin'] = $user["isAdmin"];
+
                 $data = ['user' => $user];
                 header('Location:/');
                 return '';

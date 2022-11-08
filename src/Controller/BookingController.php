@@ -4,26 +4,29 @@ namespace App\Controller;
 
 use App\Model\MenuManager;
 use App\Model\TagManager;
-use App\Model\CookManager;
 use App\Model\BookingManager;
+use App\Model\CookManager;
 
 class BookingController extends AbstractController
 {
+    public int $pricePrestation = 10;
     /**
      * Booking informations without menu
      */
     public function booking(string $adress, string $date, string $hour, string $benefit): string
     {
-        // TODO VALIDATION
         $menuManager = new MenuManager();
         $tagManager = new TagManager();
         $menus = $menuManager->selectAll();
         foreach ($menus as $idx => $menu) {
-            $tagsFromMenu = $tagManager->selectAllTagsFromMenu($menu['id']);
-            $menus[$idx]["tags"] = $tagsFromMenu;
+            if (is_numeric($menu['id'])) {
+                $tagsFromMenu = $tagManager->selectAllTagsFromMenu($menu['id']);
+                $menus[$idx]["tags"] = $tagsFromMenu;
+            }
         }
         $data = ['menus' => $menus];
 
+        //VALIDATION BY TWIG --> INFORMATIONS ASKED IN CERTAIN FORMS
         $data ['adress'] = $adress;
         $data ['date'] = $date;
         $data ['hour'] = $hour;
@@ -39,14 +42,17 @@ class BookingController extends AbstractController
     {
         $data = array();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // TODO VALIDATION
             $menuManager = new MenuManager();
-            $menu = $menuManager->selectOneById($idMenu);
+            if (is_numeric($idMenu)) {
+                $menu = $menuManager->selectOneById($idMenu);
+            }
+            //VALIDATION BY TWIG --> INFORMATIONS ASKED IN CERTAIN FORMS
             $data = ['menu' => $menu];
             $data ['adress'] = $adress;
             $data ['date'] = $date;
             $data ['hour'] = $hour;
             $data ['benefit'] = $benefit;
+            $data ['pricePrestation'] = $this->pricePrestation;
         }
         return $this->twig->render('Pages/summary.html.twig', $data);
     }
@@ -54,13 +60,63 @@ class BookingController extends AbstractController
     /**
      * Booking menu with informations
      */
-    // public function bookingValidation(string $adress, string $date, string $hour, string $benefit,
-    // int $idMenu): string
-    public function bookingValidation(): string
+    public function bookingValidation(string $adress, string $date, string $hour, string $benefit, int $idMenu): string
     {
+        $bookingManager = new BookingManager();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // TODO VALIDATION + ADD BOOKING IN SQL TABLE
+            // clean $_POST data
+            $booking = array_map('trim', $_POST);
+            foreach ($booking as $key => $element) {
+                $element = trim(htmlspecialchars($booking[$key]));
+                $booking[$key] = $element;
+            }
+
+            $booking['nbMenu'] = intval($booking['nbMenu']);
+
+            $menuManager = new MenuManager();
+            if (is_numeric($idMenu)) {
+                $menu = $menuManager->selectOneById($idMenu);
+            }
+            $cookManager = new CookManager();
+            $intHour = intval($hour);
+            if (is_numeric($intHour)) {
+                $idCook = $cookManager->selectAnId(hour: $intHour);
+            }
+
+            //INFORMATIONS FOR BOOKING --> DATE + ADRESS + PRIX + IDCOOK
+            $booking['adress_booking'] = $adress;
+            $booking['date_booking'] = $date;
+            $booking['price_prestation'] = $this->pricePrestation + (floatval($menu['price_menu']) *
+             floatval($booking['nbMenu']));
+            $booking['id_cook'] = $idCook;
+
+            //INFORMATIONS FOR BOOK_MENU
+            $booking['id_menu'] = $idMenu;
+            if ($benefit === 'dinner') {
+                $booking['is_lesson'] = false;
+            }
+
+            //Validation for the item
+            $errors = $bookingManager->validation($booking);
+
+             // if validation is ok, insert and redirection
+            if (empty($errors)) {
+                $bookingManager->insertBooking($booking, $_SESSION['user_id']);
+                //SEARCH IDBOOKING FOR LINKING BOOKING TO MENU BOOKED
+                $idBooking = $bookingManager->selectLastId($_SESSION['user_id']);
+                $booking['id_booking'] = $idBooking['id'];
+                if (is_numeric($booking['id_booking'])) {
+                    $bookingManager->insertMenuInBooking($booking);
+                }
+                header('Location:/');
+                return '';
+            } else {
+                //Show errors
+                $data = [];
+                $data['errors'] = $errors;
+                return $this->twig->render('Pages/summary.html.twig', $data);
+            }
         }
-        return $this->twig->render('');
+        return $this->twig->render('Pages/summary.html.twig');
     }
 }
