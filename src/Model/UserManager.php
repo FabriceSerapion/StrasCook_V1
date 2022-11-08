@@ -15,7 +15,7 @@ final class UserManager extends AbstractManager
     {
         // TODO create $username $password
         $statement = $this->pdo->prepare(
-            "INSERT INTO " . self::TABLE . " (`username`, `password`, `isAdmin`) 
+            "INSERT INTO " . self::TABLE . " (`username`, `password`, `isAdmin`)
             VALUES (:username, :password, 0)"
         );
         $statement->bindValue('username', $user['username'], PDO::PARAM_STR);

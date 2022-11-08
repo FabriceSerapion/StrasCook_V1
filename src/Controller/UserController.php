@@ -50,7 +50,7 @@ final class UserController extends AbstractController
 
         //PUSH DATAS IN TWIG
         $data = ['bookings' => $bookings];
-        $data ['notes'] = $allBooked;
+        $data['notes'] = $allBooked;
 
         return $this->twig->render('Pages/user.html.twig', $data);
     }
@@ -152,7 +152,9 @@ final class UserController extends AbstractController
                 $_SESSION['username'] = $_POST['username'];
                 $_SESSION['user_id'] = $user["id"];
                 $_SESSION['isAdmin'] = $user["isAdmin"];
-                header('Location:/userconnected');
+
+                $data = ['user' => $user];
+                header('Location:/');
                 return '';
             } else {
                 session_destroy();
@@ -172,8 +174,7 @@ final class UserController extends AbstractController
             if (!empty($user)) {
                 //TODO modify the password verification to be stronger
                 if (
-                    password_verify($_POST['password'], $user['password']) ||
-                    ($user['isAdmin'] && $_POST['password'] === $user['password'])
+                    password_verify($_POST['password'], $user['password'])
                 ) {
                     $_SESSION['authed'] = true;
                     $_SESSION['username'] = $user["username"];
@@ -184,7 +185,7 @@ final class UserController extends AbstractController
                         header('Location:/admin');
                         return '';
                     } else {
-                        header('Location:/userconnected');
+                        header('Location:/');
                         return '';
                     }
                 } else {
