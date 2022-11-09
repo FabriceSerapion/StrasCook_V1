@@ -18,3 +18,12 @@
 #adress{
     width: 100%;
 }
+
+.tag-container {
+    color: white;
+    background-color: gray;
+    width: fit-content;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 5px;
+}

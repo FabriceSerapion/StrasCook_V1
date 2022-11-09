@@ -154,8 +154,4 @@ INSERT INTO menu (name_menu, price_menu, note_menu)
  ('Menu B', 12, 3.5),
  ('Menu C', 20, 4),
  ('Menu D', 35, 3);
-
- INSERT INTO user (`username`, `password`, `isAdmin`)
- VALUES 
- ("admin", '$2y$10$wRVRVFSZnd0aOy8y2acxje0pWvF7q.wEr324H8SHxP501M5Y8fEey', true);
  
