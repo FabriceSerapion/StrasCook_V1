@@ -36,7 +36,7 @@ class BookingController extends AbstractController
             $data ['benefit'] = $benefit;
             $data['username'] = $_SESSION["username"];
         } else {
-            header('Location:/');
+            header('Location:/user');
             return '';
         }
 
