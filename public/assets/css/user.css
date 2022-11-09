@@ -35,3 +35,10 @@ h2 {
     font-weight: bold;
     text-align: center;
 }
+
+.table_user {
+    background-color: rgba(255,228,196, 0.6);
+    margin-left: 5vw;
+    margin-right: 5vw;
+    margin-bottom: 2vh;
+}

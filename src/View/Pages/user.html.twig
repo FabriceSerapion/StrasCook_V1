@@ -11,7 +11,7 @@
   </div>
   <div class="bg-image" style="background-image: url('assets/images/user.jpg')">
     <h2>Retrouvez votre historique de commandes et laissez nous votre avis !</h2>
-    <table>
+    <table class="table_user">
       <tr>
         <th scope='col'>Date de réservation</th>
         <th scope='col'>Adresse</th>
@@ -33,11 +33,12 @@
     </table>
 
     <h2>Tous vos menus déjà commandés notés</h2>
-    <table>
+    <table class="table_user">
       <tr>
         <th scope='col'>Nom du menu</th>
         <th scope='col'>Note globale du menu</th>
         <th scope='col'>Note de l'utilisateur</th>
+        <th scope='col'>Modification</th>
       </tr>
       {% for note in notes %}
         {% if note.user_note != '' %}
@@ -51,12 +52,12 @@
       {% endfor %}
     </table>
 
-
     <h2>Tous vos menus déjà commandés non notés</h2>
-    <table>
+    <table class="table_user">
       <tr>
         <th scope='col'>Nom du menu</th>
         <th scope='col'>Note globale du menu</th>
+        <th scope='col'>Ajout</th>
       </tr>
       {% for note in notes %}
         {% if note.user_note is null or note.user_note is empty %}
