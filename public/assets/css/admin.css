@@ -28,7 +28,7 @@ td, th {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 300px;
+    margin-top: 50px;
 }
 .forms-admin-menus, .forms-admin-tags, .forms-admin-cooks, .forms-admin-books {
     display: flex;
@@ -36,6 +36,9 @@ td, th {
     text-align: center;
     font-size:large;
     margin-bottom: 50px;
+}
+.delete_button {
+    padding:5px;
 }
 .container {
     display: grid;
@@ -49,3 +52,9 @@ img {
     height: 100px;
     width: 100px;
 }  
+
+
+.row {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
